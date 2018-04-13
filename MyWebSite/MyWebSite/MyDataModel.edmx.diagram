@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="22178ea3e52141478d1cc4c57bd4d518" Name="Diagram1">
+        <EntityTypeShape EntityType="StudentHousingModel.Access_Level" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.Apartment" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.Applicant" Width="1.5" PointX="8.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.Building" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.Category" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.College" Width="1.5" PointX="0.75" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.Department" Width="1.5" PointX="0.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.Employee" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.Grade" Width="1.5" PointX="0.75" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.Maintenance_Request" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.Major" Width="1.5" PointX="6" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.Preference" Width="1.5" PointX="6" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.Resident" Width="1.5" PointX="3" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.Salary" Width="1.5" PointX="0.75" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.sysdiagram" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.User" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentHousingModel.Village" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
+        <AssociationConnector Association="StudentHousingModel.fk_Access_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Apartment_Request" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Category_Apartment" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Village_Apartment" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_College_Applicant" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Dept_Applicant" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Major_Applicant" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Preference_Applicant" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Building_Village" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Category_Preference" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Category_Village" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_College_Resident" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Depart_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Dept_Resident" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Employee_Request" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Grade_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Salary_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Resident_Request" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Village_Request" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentHousingModel.fk_Village_Preference" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
