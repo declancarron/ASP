@@ -11,7 +11,7 @@ namespace MyWebSite.Pages
     public partial class Login : System.Web.UI.Page
     {
         //entity framework name for the database
-        HousingEntities db = new HousingEntities();
+        HousingEntities1 db = new HousingEntities1();
 
         //table named Users that is in the database
          
@@ -21,6 +21,28 @@ namespace MyWebSite.Pages
 
         }
 
+        private void CreateALog(int userID, string category, string description)
+        {
+            try
+            {
+                Log logs = new Log();
+                logs.UserID = userID;
+                logs.Category = category;
+                logs.Cat_Description = description;
+                db.Logs.Add(logs);
+                int success = db.SaveChanges();
+                if (success == 0)
+                {
+                    lblSuccess.Text = "Error creating logs.";
+                }
+            }
+            catch (Exception ex)
+            {
+
+                lblSuccess.Text = "Error in database" + ex.InnerException;
+            }
+           
+        }
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             bool authenticated = false;
@@ -34,14 +56,22 @@ namespace MyWebSite.Pages
                 user = userRecord;
 
                 authenticated = true;
+                CreateALog(user.UserID, "Login", "User" + user.UserName.ToString() + "authenticated successfully");
+                break;
             }
             if (authenticated)
             {
                 ((MasterPage)this.Master).currentuser = this.user;
                 //return where you are at back to the master page
 
-                //Response.RedirectToRoute('');
+                Response.Redirect("~/pages/Home.aspx");
             }
+            else
+            {
+                lblSuccess.Text = "Problem loggin in. Please re-enter user details.";
+                CreateALog(user.UserID, "Login", "User" + user.UserName.ToString() + "authenticated failure");
+            }
+            //lblMessage.Text ="User details enter are "+ username + " " +Password;
         }
     }
 }

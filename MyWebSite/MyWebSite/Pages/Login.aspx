@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="../Styles/bootstrap.min.css" type="text/css" />
     <title></title>
 </head>
-<body>
-    <form id="form1" runat="server">
+<body class="text-center">
+    <form id="form1" runat="server" class="form-signin">
         <div>
             <div class="container">
                 <asp:Table ID="Table1" Class="form-signin" runat="server"

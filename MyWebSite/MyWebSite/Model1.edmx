@@ -108,6 +108,15 @@
           <Property Name="GradeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Grade_Desc" Type="varchar" MaxLength="30" />
         </EntityType>
+        <EntityType Name="Logs">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Category" Type="nvarchar(max)" />
+          <Property Name="Cat_Description" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Maintenance_Request">
           <Key>
             <PropertyRef Name="RequestID" />
@@ -640,6 +649,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_User_Log">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Logs" Type="Self.Logs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Logs">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Village_Apartment">
           <End Role="Village" Type="Self.Village" Multiplicity="0..1" />
           <End Role="Apartment" Type="Self.Apartment" Multiplicity="*" />
@@ -687,6 +710,7 @@
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Fees" EntityType="Self.Fees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grade" EntityType="Self.Grade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Logs" EntityType="Self.Logs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Maintenance_Request" EntityType="Self.Maintenance_Request" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Major" EntityType="Self.Major" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NFQ" EntityType="Self.NFQ" Schema="dbo" store:Type="Tables" />
@@ -821,6 +845,10 @@
           <AssociationSet Name="fk_Salary_Employee" Association="Self.fk_Salary_Employee">
             <End Role="Salary" EntitySet="Salary" />
             <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="fk_User_Log" Association="Self.fk_User_Log">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Logs" EntitySet="Logs" />
           </AssociationSet>
           <AssociationSet Name="fk_Village_Apartment" Association="Self.fk_Village_Apartment">
             <End Role="Village" EntitySet="Village" />
@@ -974,6 +1002,16 @@
           <Property Name="GradeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Grade_Desc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Employees" Relationship="Self.fk_Grade_Employee" FromRole="Grade" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Cat_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="Self.fk_User_Log" FromRole="Logs" ToRole="Users" />
         </EntityType>
         <EntityType Name="Maintenance_Request">
           <Key>
@@ -1146,6 +1184,7 @@
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AccessLevel" Type="Int32" />
           <Property Name="AccessType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Logs" Relationship="Self.fk_User_Log" FromRole="Users" ToRole="Logs" />
         </EntityType>
         <EntityType Name="Village">
           <Key>
@@ -1479,6 +1518,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_User_Log">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Logs" Type="Self.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Logs">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Resident_Request">
           <End Role="Resident" Type="Self.Resident" Multiplicity="0..1" />
           <End Role="Maintenance_Request" Type="Self.Maintenance_Request" Multiplicity="*" />
@@ -1577,7 +1630,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="HousingEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="HousingEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Access_Level" EntityType="Self.Access_Level" />
           <EntitySet Name="Apartments" EntityType="Self.Apartment" />
           <EntitySet Name="Applicants" EntityType="Self.Applicant" />
@@ -1588,6 +1641,7 @@
           <EntitySet Name="Employees" EntityType="Self.Employee" />
           <EntitySet Name="Fees" EntityType="Self.Fee" />
           <EntitySet Name="Grades" EntityType="Self.Grade" />
+          <EntitySet Name="Logs" EntityType="Self.Log" />
           <EntitySet Name="Maintenance_Request" EntityType="Self.Maintenance_Request" />
           <EntitySet Name="Majors" EntityType="Self.Major" />
           <EntitySet Name="NFQs" EntityType="Self.NFQ" />
@@ -1703,6 +1757,10 @@
             <End Role="Salary" EntitySet="Salaries" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
+          <AssociationSet Name="fk_User_Log" Association="Self.fk_User_Log">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Logs" EntitySet="Logs" />
+          </AssociationSet>
           <AssociationSet Name="fk_Resident_Request" Association="Self.fk_Resident_Request">
             <End Role="Resident" EntitySet="Residents" />
             <End Role="Maintenance_Request" EntitySet="Maintenance_Request" />
@@ -1741,7 +1799,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HousingModelStoreContainer" CdmEntityContainer="HousingEntities">
+        <EntityContainerMapping StorageEntityContainer="HousingModelStoreContainer" CdmEntityContainer="HousingEntities1">
           <EntitySetMapping Name="Access_Level">
             <EntityTypeMapping TypeName="HousingModel.Access_Level">
               <MappingFragment StoreEntitySet="Access_Level">
@@ -1852,6 +1910,16 @@
               <MappingFragment StoreEntitySet="Grade">
                 <ScalarProperty Name="GradeID" ColumnName="GradeID" />
                 <ScalarProperty Name="Grade_Desc" ColumnName="Grade_Desc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="HousingModel.Log">
+              <MappingFragment StoreEntitySet="Logs">
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Cat_Description" ColumnName="Cat_Description" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

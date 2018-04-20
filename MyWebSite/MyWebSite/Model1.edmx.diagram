@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="aa0c2a1c8e7d489fb4e2c37928b695c1" Name="Diagram1">
+      <Diagram DiagramId="10f387bb248b4fa79fd0cc93b94ac989" Name="Diagram1">
         <EntityTypeShape EntityType="HousingModel.Access_Level" Width="1.5" PointX="0.75" PointY="28" IsExpanded="true" />
         <EntityTypeShape EntityType="HousingModel.Apartment" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
         <EntityTypeShape EntityType="HousingModel.Applicant" Width="1.5" PointX="3.75" PointY="21.375" IsExpanded="true" />
@@ -13,8 +13,9 @@
         <EntityTypeShape EntityType="HousingModel.College" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
         <EntityTypeShape EntityType="HousingModel.Department" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HousingModel.Employee" Width="1.5" PointX="3" PointY="29.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HousingModel.Fee" Width="1.5" PointX="5.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingModel.Fee" Width="1.5" PointX="10.75" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="HousingModel.Grade" Width="1.5" PointX="0.75" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingModel.Log" Width="1.5" PointX="10" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="HousingModel.Maintenance_Request" Width="1.5" PointX="5.25" PointY="10.25" IsExpanded="true" />
         <EntityTypeShape EntityType="HousingModel.Major" Width="1.5" PointX="1.5" PointY="22.125" IsExpanded="true" />
         <EntityTypeShape EntityType="HousingModel.NFQ" Width="1.5" PointX="1.5" PointY="25.5" IsExpanded="true" />
@@ -27,8 +28,8 @@
         <EntityTypeShape EntityType="HousingModel.Rental" Width="1.5" PointX="8.25" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HousingModel.Resident" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="HousingModel.Salary" Width="1.5" PointX="0.75" PointY="32.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HousingModel.sysdiagram" Width="1.5" PointX="7.75" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="HousingModel.User" Width="1.5" PointX="7.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingModel.sysdiagram" Width="1.5" PointX="10.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingModel.User" Width="1.5" PointX="7.75" PointY="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="HousingModel.Village" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
         <AssociationConnector Association="HousingModel.fk_Access_Employee" ManuallyRouted="false" />
         <AssociationConnector Association="HousingModel.fk_Apartment_PreferenceItem" ManuallyRouted="false" />
@@ -55,6 +56,7 @@
         <AssociationConnector Association="HousingModel.fk_Employee_Request" ManuallyRouted="false" />
         <AssociationConnector Association="HousingModel.fk_Grade_Employee" ManuallyRouted="false" />
         <AssociationConnector Association="HousingModel.fk_Salary_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="HousingModel.fk_User_Log" ManuallyRouted="false" />
         <AssociationConnector Association="HousingModel.fk_Resident_Request" ManuallyRouted="false" />
         <AssociationConnector Association="HousingModel.fk_Village_Request" ManuallyRouted="false" />
         <AssociationConnector Association="HousingModel.fk_NFQ_Major" ManuallyRouted="false" />
