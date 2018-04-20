@@ -14,7 +14,14 @@ namespace MyWebSite
     
     public partial class Applicant
     {
-        public int ResidentID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Applicant()
+        {
+            this.Offers = new HashSet<Offer>();
+            this.Preferences = new HashSet<Preference>();
+        }
+    
+        public int ApplicantID { get; set; }
         public string Name { get; set; }
         public string Gender { get; set; }
         public Nullable<int> College_ID { get; set; }
@@ -22,14 +29,15 @@ namespace MyWebSite
         public Nullable<int> Dept_ID { get; set; }
         public string Tel_Num { get; set; }
         public string Martial_Status { get; set; }
-        public Nullable<int> PreferenceID { get; set; }
         public Nullable<int> MajorID { get; set; }
-        public Nullable<int> Application_count { get; set; }
         public Nullable<decimal> Fee { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Offer> Offers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Preference> Preferences { get; set; }
         public virtual College College { get; set; }
         public virtual Department Department { get; set; }
         public virtual Major Major { get; set; }
-        public virtual Preference Preference { get; set; }
     }
 }

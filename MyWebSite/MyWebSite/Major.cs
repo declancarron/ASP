@@ -21,11 +21,14 @@ namespace MyWebSite
         }
     
         public int MajorID { get; set; }
+        public Nullable<int> Dept_ID { get; set; }
         public string Major_Desc { get; set; }
-        public string Duration { get; set; }
-        public string Nat_Framework { get; set; }
+        public string Qualification { get; set; }
+        public Nullable<int> NFQID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Applicant> Applicants { get; set; }
+        public virtual Department Department { get; set; }
+        public virtual NFQ NFQ { get; set; }
     }
 }

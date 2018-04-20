@@ -18,6 +18,7 @@ namespace MyWebSite
         public Resident()
         {
             this.Maintenance_Request = new HashSet<Maintenance_Request>();
+            this.Rentals = new HashSet<Rental>();
         }
     
         public int ResidentID { get; set; }
@@ -28,10 +29,16 @@ namespace MyWebSite
         public Nullable<int> Dept_ID { get; set; }
         public string Tel_Num { get; set; }
         public string Martial_Status { get; set; }
+        public Nullable<int> ApartmentID { get; set; }
+        public Nullable<int> VillageID { get; set; }
     
+        public virtual Apartment Apartment { get; set; }
         public virtual College College { get; set; }
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Maintenance_Request> Maintenance_Request { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rental> Rentals { get; set; }
+        public virtual Village Village { get; set; }
     }
 }

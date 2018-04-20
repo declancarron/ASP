@@ -12,25 +12,26 @@ namespace MyWebSite
     using System;
     using System.Collections.Generic;
     
-    public partial class Maintenance_Request
+    public partial class Rental
     {
-        public int RequestID { get; set; }
-        public string Request_Desc { get; set; }
-        public Nullable<int> ResidentID { get; set; }
-        public Nullable<int> VillageID { get; set; }
-        public Nullable<int> Building_Num { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Rental()
+        {
+            this.Payments = new HashSet<Payment>();
+        }
+    
+        public int RentalID { get; set; }
+        public Nullable<System.DateTime> Rental_Date { get; set; }
         public Nullable<int> ApartmentID { get; set; }
-        public Nullable<System.DateTime> Submit_Date { get; set; }
+        public Nullable<int> ResidentID { get; set; }
+        public Nullable<System.DateTime> Rental_Term { get; set; }
         public Nullable<int> EmployeeID { get; set; }
-        public Nullable<System.DateTime> Due_Date { get; set; }
-        public string Remediation { get; set; }
-        public Nullable<System.DateTime> Fix_Date { get; set; }
-        public byte[] LastUpdate { get; set; }
+        public byte[] Last_Update { get; set; }
     
         public virtual Apartment Apartment { get; set; }
-        public virtual Building Building { get; set; }
         public virtual Employee Employee { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Payment> Payments { get; set; }
         public virtual Resident Resident { get; set; }
-        public virtual Village Village { get; set; }
     }
 }

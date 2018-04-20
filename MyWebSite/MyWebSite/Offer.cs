@@ -12,23 +12,19 @@ namespace MyWebSite
     using System;
     using System.Collections.Generic;
     
-    public partial class Category
+    public partial class Offer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Category()
+        public Offer()
         {
-            this.Apartments = new HashSet<Apartment>();
+            this.OfferItems = new HashSet<OfferItem>();
         }
     
-        public int CategoryID { get; set; }
-        public string Dishwasher { get; set; }
-        public string Air_Con { get; set; }
-        public string Furnished { get; set; }
-        public string Room_Type { get; set; }
-        public Nullable<decimal> Deposit { get; set; }
-        public Nullable<decimal> Rent { get; set; }
+        public int OfferID { get; set; }
+        public Nullable<int> ApplicantID { get; set; }
     
+        public virtual Applicant Applicant { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Apartment> Apartments { get; set; }
+        public virtual ICollection<OfferItem> OfferItems { get; set; }
     }
 }

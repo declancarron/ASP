@@ -13,10 +13,10 @@ namespace MyWebSite
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class StudentHousingEntities1 : DbContext
+    public partial class HousingEntities : DbContext
     {
-        public StudentHousingEntities1()
-            : base("name=StudentHousingEntities1")
+        public HousingEntities()
+            : base("name=HousingEntities")
         {
         }
     
@@ -33,10 +33,18 @@ namespace MyWebSite
         public virtual DbSet<College> Colleges { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Fee> Fees { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
         public virtual DbSet<Maintenance_Request> Maintenance_Request { get; set; }
         public virtual DbSet<Major> Majors { get; set; }
+        public virtual DbSet<NFQ> NFQs { get; set; }
+        public virtual DbSet<Occupancy> Occupancies { get; set; }
+        public virtual DbSet<Offer> Offers { get; set; }
+        public virtual DbSet<OfferItem> OfferItems { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<Preference> Preferences { get; set; }
+        public virtual DbSet<PreferenceItem> PreferenceItems { get; set; }
+        public virtual DbSet<Rental> Rentals { get; set; }
         public virtual DbSet<Resident> Residents { get; set; }
         public virtual DbSet<Salary> Salaries { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }

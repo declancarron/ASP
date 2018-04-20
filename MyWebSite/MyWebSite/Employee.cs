@@ -17,22 +17,27 @@ namespace MyWebSite
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employee()
         {
+            this.Payments = new HashSet<Payment>();
+            this.Rentals = new HashSet<Rental>();
             this.Maintenance_Request = new HashSet<Maintenance_Request>();
         }
     
-        public int UserID { get; set; }
-        public string FName { get; set; }
-        public string LName { get; set; }
+        public int EmployeeID { get; set; }
+        public string Name { get; set; }
         public string Email { get; set; }
+        public string Tel_Num { get; set; }
         public string Password { get; set; }
         public Nullable<int> Access_Code { get; set; }
         public Nullable<int> Dept_ID { get; set; }
-        public Nullable<System.DateTime> Employment_Date { get; set; }
         public Nullable<int> GradeID { get; set; }
         public Nullable<int> SalaryID { get; set; }
     
         public virtual Access_Level Access_Level { get; set; }
         public virtual Department Department { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Payment> Payments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rental> Rentals { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Maintenance_Request> Maintenance_Request { get; set; }
         public virtual Grade Grade { get; set; }

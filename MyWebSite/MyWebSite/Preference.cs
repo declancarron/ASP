@@ -17,16 +17,14 @@ namespace MyWebSite
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Preference()
         {
-            this.Applicants = new HashSet<Applicant>();
+            this.PreferenceItems = new HashSet<PreferenceItem>();
         }
     
         public int PreferenceID { get; set; }
-        public Nullable<int> VillageID { get; set; }
-        public Nullable<int> CategoryID { get; set; }
+        public Nullable<int> ApplicantID { get; set; }
     
+        public virtual Applicant Applicant { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Applicant> Applicants { get; set; }
-        public virtual Category Category { get; set; }
-        public virtual Village Village { get; set; }
+        public virtual ICollection<PreferenceItem> PreferenceItems { get; set; }
     }
 }

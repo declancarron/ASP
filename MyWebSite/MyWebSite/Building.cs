@@ -17,13 +17,16 @@ namespace MyWebSite
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Building()
         {
-            this.Villages = new HashSet<Village>();
+            this.Apartments = new HashSet<Apartment>();
+            this.Maintenance_Request = new HashSet<Maintenance_Request>();
         }
     
         public int Building_Num { get; set; }
         public string Building_Desc { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Village> Villages { get; set; }
+        public virtual ICollection<Apartment> Apartments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Maintenance_Request> Maintenance_Request { get; set; }
     }
 }

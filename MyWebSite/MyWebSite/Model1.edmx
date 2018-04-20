@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="StudentHousingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="HousingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Access_Level">
           <Key>
             <PropertyRef Name="Access_Code" />
@@ -18,17 +18,19 @@
             <PropertyRef Name="ApartmentID" />
           </Key>
           <Property Name="ApartmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Apartment_Num" Type="int" />
           <Property Name="VillageID" Type="int" />
           <Property Name="Apartment_Desc" Type="varchar" MaxLength="30" />
-          <Property Name="Build_Num" Type="int" />
+          <Property Name="Building_Num" Type="int" />
           <Property Name="CategoryID" Type="int" />
           <Property Name="Num_Of_Rooms" Type="int" />
+          <Property Name="OccupancyID" Type="int" />
         </EntityType>
         <EntityType Name="Applicant">
           <Key>
-            <PropertyRef Name="ResidentID" />
+            <PropertyRef Name="ApplicantID" />
           </Key>
-          <Property Name="ResidentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicantID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar(max)" />
           <Property Name="Gender" Type="varchar" MaxLength="6" />
           <Property Name="College_ID" Type="int" />
@@ -36,9 +38,7 @@
           <Property Name="Dept_ID" Type="int" />
           <Property Name="Tel_Num" Type="nvarchar" MaxLength="13" />
           <Property Name="Martial_Status" Type="varchar" MaxLength="8" />
-          <Property Name="PreferenceID" Type="int" />
           <Property Name="MajorID" Type="int" />
-          <Property Name="Application_count" Type="int" />
           <Property Name="Fee" Type="money" />
         </EntityType>
         <EntityType Name="Building">
@@ -57,6 +57,8 @@
           <Property Name="Air_Con" Type="varchar" MaxLength="10" />
           <Property Name="Furnished" Type="varchar" MaxLength="3" />
           <Property Name="Room_Type" Type="varchar" MaxLength="6" />
+          <Property Name="Deposit" Type="money" />
+          <Property Name="Rent" Type="money" />
         </EntityType>
         <EntityType Name="College">
           <Key>
@@ -73,23 +75,31 @@
             <PropertyRef Name="Dept_ID" />
           </Key>
           <Property Name="Dept_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Dept_Name" Type="varchar" MaxLength="30" />
+          <Property Name="Dept_Name" Type="varchar(max)" />
           <Property Name="Dept_Desc" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
-            <PropertyRef Name="UserID" />
+            <PropertyRef Name="EmployeeID" />
           </Key>
-          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FName" Type="varchar" MaxLength="30" />
-          <Property Name="LName" Type="varchar" MaxLength="30" />
+          <Property Name="EmployeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" />
           <Property Name="Email" Type="varchar(max)" />
+          <Property Name="Tel_Num" Type="nvarchar" MaxLength="13" />
           <Property Name="Password" Type="nvarchar" MaxLength="15" />
           <Property Name="Access_Code" Type="int" />
           <Property Name="Dept_ID" Type="int" />
-          <Property Name="Employment_Date" Type="date" />
           <Property Name="GradeID" Type="int" />
           <Property Name="SalaryID" Type="int" />
+        </EntityType>
+        <EntityType Name="Fees">
+          <Key>
+            <PropertyRef Name="FeeID" />
+          </Key>
+          <Property Name="FeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fee_Name" Type="varchar" MaxLength="30" />
+          <Property Name="Fee_Desc" Type="varchar(max)" />
+          <Property Name="Amount" Type="money" />
         </EntityType>
         <EntityType Name="Grade">
           <Key>
@@ -104,30 +114,95 @@
           </Key>
           <Property Name="RequestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Request_Desc" Type="varchar(max)" />
-          <Property Name="Build_Num" Type="int" />
-          <Property Name="VillageID" Type="int" />
-          <Property Name="Submission_Date" Type="date" />
-          <Property Name="UserID" Type="int" />
-          <Property Name="Remediation_Date" Type="date" />
           <Property Name="ResidentID" Type="int" />
+          <Property Name="VillageID" Type="int" />
+          <Property Name="Building_Num" Type="int" />
           <Property Name="ApartmentID" Type="int" />
+          <Property Name="Submit_Date" Type="date" />
+          <Property Name="EmployeeID" Type="int" />
+          <Property Name="Due_Date" Type="date" />
+          <Property Name="Remediation" Type="nvarchar(max)" />
+          <Property Name="Fix_Date" Type="date" />
+          <Property Name="LastUpdate" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Major">
           <Key>
             <PropertyRef Name="MajorID" />
           </Key>
           <Property Name="MajorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Dept_ID" Type="int" />
           <Property Name="Major_Desc" Type="varchar(max)" />
-          <Property Name="Duration" Type="varchar" MaxLength="30" />
-          <Property Name="Nat_Framework" Type="nvarchar" MaxLength="8" />
+          <Property Name="Qualification" Type="varchar(max)" />
+          <Property Name="NFQID" Type="int" />
+        </EntityType>
+        <EntityType Name="NFQ">
+          <Key>
+            <PropertyRef Name="NFQID" />
+          </Key>
+          <Property Name="NFQID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Level" Type="int" />
+          <Property Name="Qual_Desc" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Occupancy">
+          <Key>
+            <PropertyRef Name="OccupancyID" />
+          </Key>
+          <Property Name="OccupancyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Occupancy_Desc" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Offer">
+          <Key>
+            <PropertyRef Name="OfferID" />
+          </Key>
+          <Property Name="OfferID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicantID" Type="int" />
+        </EntityType>
+        <EntityType Name="OfferItems">
+          <Key>
+            <PropertyRef Name="OrderItemID" />
+          </Key>
+          <Property Name="OrderItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OfferID" Type="int" />
+          <Property Name="ApartmentID" Type="int" />
+          <Property Name="Accept" Type="varchar" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" />
+          <Property Name="RentalID" Type="int" />
+          <Property Name="Amount" Type="money" />
+          <Property Name="Payment_Date" Type="date" />
+          <Property Name="Last_Update" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Preference">
           <Key>
             <PropertyRef Name="PreferenceID" />
           </Key>
           <Property Name="PreferenceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="VillageID" Type="int" />
-          <Property Name="CategoryID" Type="int" />
+          <Property Name="ApplicantID" Type="int" />
+        </EntityType>
+        <EntityType Name="PreferenceItems">
+          <Key>
+            <PropertyRef Name="PrefItemID" />
+          </Key>
+          <Property Name="PrefItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PreferenceID" Type="int" />
+          <Property Name="ApartmentID" Type="int" />
+        </EntityType>
+        <EntityType Name="Rental">
+          <Key>
+            <PropertyRef Name="RentalID" />
+          </Key>
+          <Property Name="RentalID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rental_Date" Type="date" />
+          <Property Name="ApartmentID" Type="int" />
+          <Property Name="ResidentID" Type="int" />
+          <Property Name="Rental_Term" Type="date" />
+          <Property Name="EmployeeID" Type="int" />
+          <Property Name="Last_Update" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Resident">
           <Key>
@@ -141,6 +216,8 @@
           <Property Name="Dept_ID" Type="int" />
           <Property Name="Tel_Num" Type="nvarchar" MaxLength="13" />
           <Property Name="Martial_Status" Type="varchar" MaxLength="8" />
+          <Property Name="ApartmentID" Type="int" />
+          <Property Name="VillageID" Type="int" />
         </EntityType>
         <EntityType Name="Salary">
           <Key>
@@ -148,7 +225,6 @@
           </Key>
           <Property Name="SalaryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Salary_Desc" Type="varchar" MaxLength="30" />
-          <Property Name="Salary_Scale" Type="int" />
           <Property Name="Salary_Amount" Type="money" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -165,10 +241,10 @@
           <Key>
             <PropertyRef Name="UserID" />
           </Key>
-          <Property Name="UserID" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Username" Type="nvarchar" MaxLength="50" />
-          <Property Name="Fname" Type="nvarchar" MaxLength="50" />
-          <Property Name="Lname" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
           <Property Name="AccessLevel" Type="int" />
           <Property Name="AccessType" Type="nvarchar" MaxLength="50" />
@@ -179,10 +255,8 @@
           </Key>
           <Property Name="VillageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Village_Name" Type="varchar" MaxLength="30" />
-          <Property Name="Village_Desc" Type="varchar" MaxLength="56" />
-          <Property Name="CategoryID" Type="int" />
-          <Property Name="Building_Num" Type="int" />
-          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="Village_Desc" Type="varchar(max)" />
+          <Property Name="Address" Type="varchar(max)" />
         </EntityType>
         <Association Name="fk_Access_Employee">
           <End Role="Access_Level" Type="Self.Access_Level" Multiplicity="0..1" />
@@ -193,6 +267,32 @@
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="Access_Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Apartment_PreferenceItem">
+          <End Role="Apartment" Type="Self.Apartment" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PreferenceItems" Type="Self.PreferenceItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartment">
+              <PropertyRef Name="ApartmentID" />
+            </Principal>
+            <Dependent Role="PreferenceItems">
+              <PropertyRef Name="ApartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Apartment_Rental">
+          <End Role="Apartment" Type="Self.Apartment" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartment">
+              <PropertyRef Name="ApartmentID" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="ApartmentID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -210,56 +310,94 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Building_Village">
-          <End Role="Building" Type="Self.Building" Multiplicity="0..1">
+        <Association Name="fk_Apartment_Resident">
+          <End Role="Apartment" Type="Self.Apartment" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Village" Type="Self.Village" Multiplicity="*" />
+          <End Role="Resident" Type="Self.Resident" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartment">
+              <PropertyRef Name="ApartmentID" />
+            </Principal>
+            <Dependent Role="Resident">
+              <PropertyRef Name="ApartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Applicant_Offer">
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Offer" Type="Self.Offer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ApplicantID" />
+            </Principal>
+            <Dependent Role="Offer">
+              <PropertyRef Name="ApplicantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Applicant_OfferItems">
+          <End Role="Apartment" Type="Self.Apartment" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OfferItems" Type="Self.OfferItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartment">
+              <PropertyRef Name="ApartmentID" />
+            </Principal>
+            <Dependent Role="OfferItems">
+              <PropertyRef Name="ApartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Applicant_Preference">
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Preference" Type="Self.Preference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ApplicantID" />
+            </Principal>
+            <Dependent Role="Preference">
+              <PropertyRef Name="ApplicantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Building_Apartment">
+          <End Role="Building" Type="Self.Building" Multiplicity="0..1" />
+          <End Role="Apartment" Type="Self.Apartment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Building">
               <PropertyRef Name="Building_Num" />
             </Principal>
-            <Dependent Role="Village">
+            <Dependent Role="Apartment">
+              <PropertyRef Name="Building_Num" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Building_Request">
+          <End Role="Building" Type="Self.Building" Multiplicity="0..1" />
+          <End Role="Maintenance_Request" Type="Self.Maintenance_Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Building">
+              <PropertyRef Name="Building_Num" />
+            </Principal>
+            <Dependent Role="Maintenance_Request">
               <PropertyRef Name="Building_Num" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Category_Apartment">
-          <End Role="Category" Type="Self.Category" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="Apartment" Type="Self.Apartment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Category">
               <PropertyRef Name="CategoryID" />
             </Principal>
             <Dependent Role="Apartment">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Category_Preference">
-          <End Role="Category" Type="Self.Category" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Preference" Type="Self.Preference" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="Preference">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Category_Village">
-          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
-          <End Role="Village" Type="Self.Village" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="Village">
               <PropertyRef Name="CategoryID" />
             </Dependent>
           </ReferentialConstraint>
@@ -288,19 +426,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Depart_Employee">
-          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="Dept_ID" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="Dept_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Dept_Applicant">
+        <Association Name="fk_Department_Applicant">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="Applicant" Type="Self.Applicant" Multiplicity="*" />
           <ReferentialConstraint>
@@ -312,10 +438,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_Dept_Employee">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Dept_ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Dept_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Dept_Major">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Major" Type="Self.Major" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Dept_ID" />
+            </Principal>
+            <Dependent Role="Major">
+              <PropertyRef Name="Dept_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Dept_Resident">
-          <End Role="Department" Type="Self.Department" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="Resident" Type="Self.Resident" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
@@ -326,15 +474,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_Employee_Payment">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Employee_Rental">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Employee_Request">
           <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
           <End Role="Maintenance_Request" Type="Self.Maintenance_Request" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
-              <PropertyRef Name="UserID" />
+              <PropertyRef Name="EmployeeID" />
             </Principal>
             <Dependent Role="Maintenance_Request">
-              <PropertyRef Name="UserID" />
+              <PropertyRef Name="EmployeeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -364,15 +538,79 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Preference_Applicant">
+        <Association Name="fk_NFQ_Major">
+          <End Role="NFQ" Type="Self.NFQ" Multiplicity="0..1" />
+          <End Role="Major" Type="Self.Major" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NFQ">
+              <PropertyRef Name="NFQID" />
+            </Principal>
+            <Dependent Role="Major">
+              <PropertyRef Name="NFQID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Occupancy_Apartment">
+          <End Role="Occupancy" Type="Self.Occupancy" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Apartment" Type="Self.Apartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Occupancy">
+              <PropertyRef Name="OccupancyID" />
+            </Principal>
+            <Dependent Role="Apartment">
+              <PropertyRef Name="OccupancyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Offer_OfferItems">
+          <End Role="Offer" Type="Self.Offer" Multiplicity="0..1" />
+          <End Role="OfferItems" Type="Self.OfferItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Offer">
+              <PropertyRef Name="OfferID" />
+            </Principal>
+            <Dependent Role="OfferItems">
+              <PropertyRef Name="OfferID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Preference_PreferenceItem">
           <End Role="Preference" Type="Self.Preference" Multiplicity="0..1" />
-          <End Role="Applicant" Type="Self.Applicant" Multiplicity="*" />
+          <End Role="PreferenceItems" Type="Self.PreferenceItems" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Preference">
               <PropertyRef Name="PreferenceID" />
             </Principal>
-            <Dependent Role="Applicant">
+            <Dependent Role="PreferenceItems">
               <PropertyRef Name="PreferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Rental_Payment">
+          <End Role="Rental" Type="Self.Rental" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rental">
+              <PropertyRef Name="RentalID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="RentalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Resident_Rental">
+          <End Role="Resident" Type="Self.Resident" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resident">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="ResidentID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -414,18 +652,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Village_Preference">
-          <End Role="Village" Type="Self.Village" Multiplicity="0..1" />
-          <End Role="Preference" Type="Self.Preference" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Village">
-              <PropertyRef Name="VillageID" />
-            </Principal>
-            <Dependent Role="Preference">
-              <PropertyRef Name="VillageID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_Village_Request">
           <End Role="Village" Type="Self.Village" Multiplicity="0..1" />
           <End Role="Maintenance_Request" Type="Self.Maintenance_Request" Multiplicity="*" />
@@ -438,7 +664,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="StudentHousingModelStoreContainer">
+        <Association Name="fk_Village_Resident">
+          <End Role="Village" Type="Self.Village" Multiplicity="0..1" />
+          <End Role="Resident" Type="Self.Resident" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Village">
+              <PropertyRef Name="VillageID" />
+            </Principal>
+            <Dependent Role="Resident">
+              <PropertyRef Name="VillageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HousingModelStoreContainer">
           <EntitySet Name="Access_Level" EntityType="Self.Access_Level" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Apartment" EntityType="Self.Apartment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Applicant" EntityType="Self.Applicant" Schema="dbo" store:Type="Tables" />
@@ -447,10 +685,18 @@
           <EntitySet Name="College" EntityType="Self.College" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fees" EntityType="Self.Fees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grade" EntityType="Self.Grade" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Maintenance_Request" EntityType="Self.Maintenance_Request" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Major" EntityType="Self.Major" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NFQ" EntityType="Self.NFQ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Occupancy" EntityType="Self.Occupancy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Offer" EntityType="Self.Offer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OfferItems" EntityType="Self.OfferItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preference" EntityType="Self.Preference" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PreferenceItems" EntityType="Self.PreferenceItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rental" EntityType="Self.Rental" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Resident" EntityType="Self.Resident" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Salary" EntityType="Self.Salary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -460,25 +706,45 @@
             <End Role="Access_Level" EntitySet="Access_Level" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
+          <AssociationSet Name="fk_Apartment_PreferenceItem" Association="Self.fk_Apartment_PreferenceItem">
+            <End Role="Apartment" EntitySet="Apartment" />
+            <End Role="PreferenceItems" EntitySet="PreferenceItems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Apartment_Rental" Association="Self.fk_Apartment_Rental">
+            <End Role="Apartment" EntitySet="Apartment" />
+            <End Role="Rental" EntitySet="Rental" />
+          </AssociationSet>
           <AssociationSet Name="fk_Apartment_Request" Association="Self.fk_Apartment_Request">
             <End Role="Apartment" EntitySet="Apartment" />
             <End Role="Maintenance_Request" EntitySet="Maintenance_Request" />
           </AssociationSet>
-          <AssociationSet Name="fk_Building_Village" Association="Self.fk_Building_Village">
+          <AssociationSet Name="fk_Apartment_Resident" Association="Self.fk_Apartment_Resident">
+            <End Role="Apartment" EntitySet="Apartment" />
+            <End Role="Resident" EntitySet="Resident" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Applicant_Offer" Association="Self.fk_Applicant_Offer">
+            <End Role="Applicant" EntitySet="Applicant" />
+            <End Role="Offer" EntitySet="Offer" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Applicant_OfferItems" Association="Self.fk_Applicant_OfferItems">
+            <End Role="Apartment" EntitySet="Apartment" />
+            <End Role="OfferItems" EntitySet="OfferItems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Applicant_Preference" Association="Self.fk_Applicant_Preference">
+            <End Role="Applicant" EntitySet="Applicant" />
+            <End Role="Preference" EntitySet="Preference" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Building_Apartment" Association="Self.fk_Building_Apartment">
             <End Role="Building" EntitySet="Building" />
-            <End Role="Village" EntitySet="Village" />
+            <End Role="Apartment" EntitySet="Apartment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Building_Request" Association="Self.fk_Building_Request">
+            <End Role="Building" EntitySet="Building" />
+            <End Role="Maintenance_Request" EntitySet="Maintenance_Request" />
           </AssociationSet>
           <AssociationSet Name="fk_Category_Apartment" Association="Self.fk_Category_Apartment">
             <End Role="Category" EntitySet="Category" />
             <End Role="Apartment" EntitySet="Apartment" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Category_Preference" Association="Self.fk_Category_Preference">
-            <End Role="Category" EntitySet="Category" />
-            <End Role="Preference" EntitySet="Preference" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Category_Village" Association="Self.fk_Category_Village">
-            <End Role="Category" EntitySet="Category" />
-            <End Role="Village" EntitySet="Village" />
           </AssociationSet>
           <AssociationSet Name="fk_College_Applicant" Association="Self.fk_College_Applicant">
             <End Role="College" EntitySet="College" />
@@ -488,17 +754,29 @@
             <End Role="College" EntitySet="College" />
             <End Role="Resident" EntitySet="Resident" />
           </AssociationSet>
-          <AssociationSet Name="fk_Depart_Employee" Association="Self.fk_Depart_Employee">
+          <AssociationSet Name="fk_Department_Applicant" Association="Self.fk_Department_Applicant">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Applicant" EntitySet="Applicant" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Dept_Employee" Association="Self.fk_Dept_Employee">
             <End Role="Department" EntitySet="Department" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
-          <AssociationSet Name="fk_Dept_Applicant" Association="Self.fk_Dept_Applicant">
+          <AssociationSet Name="fk_Dept_Major" Association="Self.fk_Dept_Major">
             <End Role="Department" EntitySet="Department" />
-            <End Role="Applicant" EntitySet="Applicant" />
+            <End Role="Major" EntitySet="Major" />
           </AssociationSet>
           <AssociationSet Name="fk_Dept_Resident" Association="Self.fk_Dept_Resident">
             <End Role="Department" EntitySet="Department" />
             <End Role="Resident" EntitySet="Resident" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Payment" Association="Self.fk_Employee_Payment">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Rental" Association="Self.fk_Employee_Rental">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Rental" EntitySet="Rental" />
           </AssociationSet>
           <AssociationSet Name="fk_Employee_Request" Association="Self.fk_Employee_Request">
             <End Role="Employee" EntitySet="Employee" />
@@ -512,9 +790,29 @@
             <End Role="Major" EntitySet="Major" />
             <End Role="Applicant" EntitySet="Applicant" />
           </AssociationSet>
-          <AssociationSet Name="fk_Preference_Applicant" Association="Self.fk_Preference_Applicant">
+          <AssociationSet Name="fk_NFQ_Major" Association="Self.fk_NFQ_Major">
+            <End Role="NFQ" EntitySet="NFQ" />
+            <End Role="Major" EntitySet="Major" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Occupancy_Apartment" Association="Self.fk_Occupancy_Apartment">
+            <End Role="Occupancy" EntitySet="Occupancy" />
+            <End Role="Apartment" EntitySet="Apartment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Offer_OfferItems" Association="Self.fk_Offer_OfferItems">
+            <End Role="Offer" EntitySet="Offer" />
+            <End Role="OfferItems" EntitySet="OfferItems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Preference_PreferenceItem" Association="Self.fk_Preference_PreferenceItem">
             <End Role="Preference" EntitySet="Preference" />
-            <End Role="Applicant" EntitySet="Applicant" />
+            <End Role="PreferenceItems" EntitySet="PreferenceItems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Rental_Payment" Association="Self.fk_Rental_Payment">
+            <End Role="Rental" EntitySet="Rental" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Resident_Rental" Association="Self.fk_Resident_Rental">
+            <End Role="Resident" EntitySet="Resident" />
+            <End Role="Rental" EntitySet="Rental" />
           </AssociationSet>
           <AssociationSet Name="fk_Resident_Request" Association="Self.fk_Resident_Request">
             <End Role="Resident" EntitySet="Resident" />
@@ -528,20 +826,20 @@
             <End Role="Village" EntitySet="Village" />
             <End Role="Apartment" EntitySet="Apartment" />
           </AssociationSet>
-          <AssociationSet Name="fk_Village_Preference" Association="Self.fk_Village_Preference">
-            <End Role="Village" EntitySet="Village" />
-            <End Role="Preference" EntitySet="Preference" />
-          </AssociationSet>
           <AssociationSet Name="fk_Village_Request" Association="Self.fk_Village_Request">
             <End Role="Village" EntitySet="Village" />
             <End Role="Maintenance_Request" EntitySet="Maintenance_Request" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Village_Resident" Association="Self.fk_Village_Resident">
+            <End Role="Village" EntitySet="Village" />
+            <End Role="Resident" EntitySet="Resident" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="StudentHousingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="HousingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Access_Level">
           <Key>
             <PropertyRef Name="Access_Code" />
@@ -556,20 +854,28 @@
             <PropertyRef Name="ApartmentID" />
           </Key>
           <Property Name="ApartmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Apartment_Num" Type="Int32" />
           <Property Name="VillageID" Type="Int32" />
           <Property Name="Apartment_Desc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Build_Num" Type="Int32" />
+          <Property Name="Building_Num" Type="Int32" />
           <Property Name="CategoryID" Type="Int32" />
           <Property Name="Num_Of_Rooms" Type="Int32" />
+          <Property Name="OccupancyID" Type="Int32" />
+          <NavigationProperty Name="PreferenceItems" Relationship="Self.fk_Apartment_PreferenceItem" FromRole="Apartment" ToRole="PreferenceItems" />
+          <NavigationProperty Name="Rentals" Relationship="Self.fk_Apartment_Rental" FromRole="Apartment" ToRole="Rental" />
           <NavigationProperty Name="Maintenance_Request" Relationship="Self.fk_Apartment_Request" FromRole="Apartment" ToRole="Maintenance_Request" />
+          <NavigationProperty Name="Residents" Relationship="Self.fk_Apartment_Resident" FromRole="Apartment" ToRole="Resident" />
+          <NavigationProperty Name="OfferItems" Relationship="Self.fk_Applicant_OfferItems" FromRole="Apartment" ToRole="OfferItems" />
+          <NavigationProperty Name="Building" Relationship="Self.fk_Building_Apartment" FromRole="Apartment" ToRole="Building" />
           <NavigationProperty Name="Category" Relationship="Self.fk_Category_Apartment" FromRole="Apartment" ToRole="Category" />
+          <NavigationProperty Name="Occupancy" Relationship="Self.fk_Occupancy_Apartment" FromRole="Apartment" ToRole="Occupancy" />
           <NavigationProperty Name="Village" Relationship="Self.fk_Village_Apartment" FromRole="Apartment" ToRole="Village" />
         </EntityType>
         <EntityType Name="Applicant">
           <Key>
-            <PropertyRef Name="ResidentID" />
+            <PropertyRef Name="ApplicantID" />
           </Key>
-          <Property Name="ResidentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicantID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Gender" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
           <Property Name="College_ID" Type="Int32" />
@@ -577,14 +883,13 @@
           <Property Name="Dept_ID" Type="Int32" />
           <Property Name="Tel_Num" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
           <Property Name="Martial_Status" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="PreferenceID" Type="Int32" />
           <Property Name="MajorID" Type="Int32" />
-          <Property Name="Application_count" Type="Int32" />
           <Property Name="Fee" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Offers" Relationship="Self.fk_Applicant_Offer" FromRole="Applicant" ToRole="Offer" />
+          <NavigationProperty Name="Preferences" Relationship="Self.fk_Applicant_Preference" FromRole="Applicant" ToRole="Preference" />
           <NavigationProperty Name="College" Relationship="Self.fk_College_Applicant" FromRole="Applicant" ToRole="College" />
-          <NavigationProperty Name="Department" Relationship="Self.fk_Dept_Applicant" FromRole="Applicant" ToRole="Department" />
+          <NavigationProperty Name="Department" Relationship="Self.fk_Department_Applicant" FromRole="Applicant" ToRole="Department" />
           <NavigationProperty Name="Major" Relationship="Self.fk_Major_Applicant" FromRole="Applicant" ToRole="Major" />
-          <NavigationProperty Name="Preference" Relationship="Self.fk_Preference_Applicant" FromRole="Applicant" ToRole="Preference" />
         </EntityType>
         <EntityType Name="Building">
           <Key>
@@ -592,7 +897,8 @@
           </Key>
           <Property Name="Building_Num" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Building_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Villages" Relationship="Self.fk_Building_Village" FromRole="Building" ToRole="Village" />
+          <NavigationProperty Name="Apartments" Relationship="Self.fk_Building_Apartment" FromRole="Building" ToRole="Apartment" />
+          <NavigationProperty Name="Maintenance_Request" Relationship="Self.fk_Building_Request" FromRole="Building" ToRole="Maintenance_Request" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -603,9 +909,9 @@
           <Property Name="Air_Con" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Furnished" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
           <Property Name="Room_Type" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="Deposit" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Rent" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="Apartments" Relationship="Self.fk_Category_Apartment" FromRole="Category" ToRole="Apartment" />
-          <NavigationProperty Name="Preferences" Relationship="Self.fk_Category_Preference" FromRole="Category" ToRole="Preference" />
-          <NavigationProperty Name="Villages" Relationship="Self.fk_Category_Village" FromRole="Category" ToRole="Village" />
         </EntityType>
         <EntityType Name="College">
           <Key>
@@ -624,31 +930,42 @@
             <PropertyRef Name="Dept_ID" />
           </Key>
           <Property Name="Dept_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Dept_Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Dept_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Dept_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Applicants" Relationship="Self.fk_Dept_Applicant" FromRole="Department" ToRole="Applicant" />
-          <NavigationProperty Name="Employees" Relationship="Self.fk_Depart_Employee" FromRole="Department" ToRole="Employee" />
+          <NavigationProperty Name="Applicants" Relationship="Self.fk_Department_Applicant" FromRole="Department" ToRole="Applicant" />
+          <NavigationProperty Name="Employees" Relationship="Self.fk_Dept_Employee" FromRole="Department" ToRole="Employee" />
+          <NavigationProperty Name="Majors" Relationship="Self.fk_Dept_Major" FromRole="Department" ToRole="Major" />
           <NavigationProperty Name="Residents" Relationship="Self.fk_Dept_Resident" FromRole="Department" ToRole="Resident" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
-            <PropertyRef Name="UserID" />
+            <PropertyRef Name="EmployeeID" />
           </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="LName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Tel_Num" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="Access_Code" Type="Int32" />
           <Property Name="Dept_ID" Type="Int32" />
-          <Property Name="Employment_Date" Type="DateTime" Precision="0" />
           <Property Name="GradeID" Type="Int32" />
           <Property Name="SalaryID" Type="Int32" />
           <NavigationProperty Name="Access_Level" Relationship="Self.fk_Access_Employee" FromRole="Employee" ToRole="Access_Level" />
-          <NavigationProperty Name="Department" Relationship="Self.fk_Depart_Employee" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="Department" Relationship="Self.fk_Dept_Employee" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="Payments" Relationship="Self.fk_Employee_Payment" FromRole="Employee" ToRole="Payment" />
+          <NavigationProperty Name="Rentals" Relationship="Self.fk_Employee_Rental" FromRole="Employee" ToRole="Rental" />
           <NavigationProperty Name="Maintenance_Request" Relationship="Self.fk_Employee_Request" FromRole="Employee" ToRole="Maintenance_Request" />
           <NavigationProperty Name="Grade" Relationship="Self.fk_Grade_Employee" FromRole="Employee" ToRole="Grade" />
           <NavigationProperty Name="Salary" Relationship="Self.fk_Salary_Employee" FromRole="Employee" ToRole="Salary" />
+        </EntityType>
+        <EntityType Name="Fee">
+          <Key>
+            <PropertyRef Name="FeeID" />
+          </Key>
+          <Property Name="FeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fee_Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Fee_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="Grade">
           <Key>
@@ -664,14 +981,18 @@
           </Key>
           <Property Name="RequestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Request_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Build_Num" Type="Int32" />
-          <Property Name="VillageID" Type="Int32" />
-          <Property Name="Submission_Date" Type="DateTime" Precision="0" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="Remediation_Date" Type="DateTime" Precision="0" />
           <Property Name="ResidentID" Type="Int32" />
+          <Property Name="VillageID" Type="Int32" />
+          <Property Name="Building_Num" Type="Int32" />
           <Property Name="ApartmentID" Type="Int32" />
+          <Property Name="Submit_Date" Type="DateTime" Precision="0" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <Property Name="Due_Date" Type="DateTime" Precision="0" />
+          <Property Name="Remediation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fix_Date" Type="DateTime" Precision="0" />
+          <Property Name="LastUpdate" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="Apartment" Relationship="Self.fk_Apartment_Request" FromRole="Maintenance_Request" ToRole="Apartment" />
+          <NavigationProperty Name="Building" Relationship="Self.fk_Building_Request" FromRole="Maintenance_Request" ToRole="Building" />
           <NavigationProperty Name="Employee" Relationship="Self.fk_Employee_Request" FromRole="Maintenance_Request" ToRole="Employee" />
           <NavigationProperty Name="Resident" Relationship="Self.fk_Resident_Request" FromRole="Maintenance_Request" ToRole="Resident" />
           <NavigationProperty Name="Village" Relationship="Self.fk_Village_Request" FromRole="Maintenance_Request" ToRole="Village" />
@@ -681,21 +1002,98 @@
             <PropertyRef Name="MajorID" />
           </Key>
           <Property Name="MajorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Dept_ID" Type="Int32" />
           <Property Name="Major_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Duration" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Nat_Framework" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="Qualification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NFQID" Type="Int32" />
           <NavigationProperty Name="Applicants" Relationship="Self.fk_Major_Applicant" FromRole="Major" ToRole="Applicant" />
+          <NavigationProperty Name="Department" Relationship="Self.fk_Dept_Major" FromRole="Major" ToRole="Department" />
+          <NavigationProperty Name="NFQ" Relationship="Self.fk_NFQ_Major" FromRole="Major" ToRole="NFQ" />
+        </EntityType>
+        <EntityType Name="NFQ">
+          <Key>
+            <PropertyRef Name="NFQID" />
+          </Key>
+          <Property Name="NFQID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Level" Type="Int32" />
+          <Property Name="Qual_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Majors" Relationship="Self.fk_NFQ_Major" FromRole="NFQ" ToRole="Major" />
+        </EntityType>
+        <EntityType Name="Occupancy">
+          <Key>
+            <PropertyRef Name="OccupancyID" />
+          </Key>
+          <Property Name="OccupancyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Occupancy_Desc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Apartments" Relationship="Self.fk_Occupancy_Apartment" FromRole="Occupancy" ToRole="Apartment" />
+        </EntityType>
+        <EntityType Name="Offer">
+          <Key>
+            <PropertyRef Name="OfferID" />
+          </Key>
+          <Property Name="OfferID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicantID" Type="Int32" />
+          <NavigationProperty Name="Applicant" Relationship="Self.fk_Applicant_Offer" FromRole="Offer" ToRole="Applicant" />
+          <NavigationProperty Name="OfferItems" Relationship="Self.fk_Offer_OfferItems" FromRole="Offer" ToRole="OfferItems" />
+        </EntityType>
+        <EntityType Name="OfferItem">
+          <Key>
+            <PropertyRef Name="OrderItemID" />
+          </Key>
+          <Property Name="OrderItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OfferID" Type="Int32" />
+          <Property Name="ApartmentID" Type="Int32" />
+          <Property Name="Accept" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Apartment" Relationship="Self.fk_Applicant_OfferItems" FromRole="OfferItems" ToRole="Apartment" />
+          <NavigationProperty Name="Offer" Relationship="Self.fk_Offer_OfferItems" FromRole="OfferItems" ToRole="Offer" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <Property Name="RentalID" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Payment_Date" Type="DateTime" Precision="0" />
+          <Property Name="Last_Update" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Employee" Relationship="Self.fk_Employee_Payment" FromRole="Payment" ToRole="Employee" />
+          <NavigationProperty Name="Rental" Relationship="Self.fk_Rental_Payment" FromRole="Payment" ToRole="Rental" />
         </EntityType>
         <EntityType Name="Preference">
           <Key>
             <PropertyRef Name="PreferenceID" />
           </Key>
           <Property Name="PreferenceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VillageID" Type="Int32" />
-          <Property Name="CategoryID" Type="Int32" />
-          <NavigationProperty Name="Applicants" Relationship="Self.fk_Preference_Applicant" FromRole="Preference" ToRole="Applicant" />
-          <NavigationProperty Name="Category" Relationship="Self.fk_Category_Preference" FromRole="Preference" ToRole="Category" />
-          <NavigationProperty Name="Village" Relationship="Self.fk_Village_Preference" FromRole="Preference" ToRole="Village" />
+          <Property Name="ApplicantID" Type="Int32" />
+          <NavigationProperty Name="Applicant" Relationship="Self.fk_Applicant_Preference" FromRole="Preference" ToRole="Applicant" />
+          <NavigationProperty Name="PreferenceItems" Relationship="Self.fk_Preference_PreferenceItem" FromRole="Preference" ToRole="PreferenceItems" />
+        </EntityType>
+        <EntityType Name="PreferenceItem">
+          <Key>
+            <PropertyRef Name="PrefItemID" />
+          </Key>
+          <Property Name="PrefItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PreferenceID" Type="Int32" />
+          <Property Name="ApartmentID" Type="Int32" />
+          <NavigationProperty Name="Apartment" Relationship="Self.fk_Apartment_PreferenceItem" FromRole="PreferenceItems" ToRole="Apartment" />
+          <NavigationProperty Name="Preference" Relationship="Self.fk_Preference_PreferenceItem" FromRole="PreferenceItems" ToRole="Preference" />
+        </EntityType>
+        <EntityType Name="Rental">
+          <Key>
+            <PropertyRef Name="RentalID" />
+          </Key>
+          <Property Name="RentalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rental_Date" Type="DateTime" Precision="0" />
+          <Property Name="ApartmentID" Type="Int32" />
+          <Property Name="ResidentID" Type="Int32" />
+          <Property Name="Rental_Term" Type="DateTime" Precision="0" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <Property Name="Last_Update" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Apartment" Relationship="Self.fk_Apartment_Rental" FromRole="Rental" ToRole="Apartment" />
+          <NavigationProperty Name="Employee" Relationship="Self.fk_Employee_Rental" FromRole="Rental" ToRole="Employee" />
+          <NavigationProperty Name="Payments" Relationship="Self.fk_Rental_Payment" FromRole="Rental" ToRole="Payment" />
+          <NavigationProperty Name="Resident" Relationship="Self.fk_Resident_Rental" FromRole="Rental" ToRole="Resident" />
         </EntityType>
         <EntityType Name="Resident">
           <Key>
@@ -709,9 +1107,14 @@
           <Property Name="Dept_ID" Type="Int32" />
           <Property Name="Tel_Num" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
           <Property Name="Martial_Status" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="ApartmentID" Type="Int32" />
+          <Property Name="VillageID" Type="Int32" />
+          <NavigationProperty Name="Apartment" Relationship="Self.fk_Apartment_Resident" FromRole="Resident" ToRole="Apartment" />
           <NavigationProperty Name="College" Relationship="Self.fk_College_Resident" FromRole="Resident" ToRole="College" />
           <NavigationProperty Name="Department" Relationship="Self.fk_Dept_Resident" FromRole="Resident" ToRole="Department" />
           <NavigationProperty Name="Maintenance_Request" Relationship="Self.fk_Resident_Request" FromRole="Resident" ToRole="Maintenance_Request" />
+          <NavigationProperty Name="Rentals" Relationship="Self.fk_Resident_Rental" FromRole="Resident" ToRole="Rental" />
+          <NavigationProperty Name="Village" Relationship="Self.fk_Village_Resident" FromRole="Resident" ToRole="Village" />
         </EntityType>
         <EntityType Name="Salary">
           <Key>
@@ -719,7 +1122,6 @@
           </Key>
           <Property Name="SalaryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Salary_Desc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Salary_Scale" Type="Int32" />
           <Property Name="Salary_Amount" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="Employees" Relationship="Self.fk_Salary_Employee" FromRole="Salary" ToRole="Employee" />
         </EntityType>
@@ -737,10 +1139,10 @@
           <Key>
             <PropertyRef Name="UserID" />
           </Key>
-          <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Fname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Lname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AccessLevel" Type="Int32" />
           <Property Name="AccessType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -751,15 +1153,11 @@
           </Key>
           <Property Name="VillageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Village_Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Village_Desc" Type="String" MaxLength="56" FixedLength="false" Unicode="false" />
-          <Property Name="CategoryID" Type="Int32" />
-          <Property Name="Building_Num" Type="Int32" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Village_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Apartments" Relationship="Self.fk_Village_Apartment" FromRole="Village" ToRole="Apartment" />
-          <NavigationProperty Name="Building" Relationship="Self.fk_Building_Village" FromRole="Village" ToRole="Building" />
-          <NavigationProperty Name="Category" Relationship="Self.fk_Category_Village" FromRole="Village" ToRole="Category" />
           <NavigationProperty Name="Maintenance_Request" Relationship="Self.fk_Village_Request" FromRole="Village" ToRole="Maintenance_Request" />
-          <NavigationProperty Name="Preferences" Relationship="Self.fk_Village_Preference" FromRole="Village" ToRole="Preference" />
+          <NavigationProperty Name="Residents" Relationship="Self.fk_Village_Resident" FromRole="Village" ToRole="Resident" />
         </EntityType>
         <Association Name="fk_Access_Employee">
           <End Role="Access_Level" Type="Self.Access_Level" Multiplicity="0..1" />
@@ -770,6 +1168,32 @@
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="Access_Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Apartment_PreferenceItem">
+          <End Role="Apartment" Type="Self.Apartment" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PreferenceItems" Type="Self.PreferenceItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartment">
+              <PropertyRef Name="ApartmentID" />
+            </Principal>
+            <Dependent Role="PreferenceItems">
+              <PropertyRef Name="ApartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Apartment_Rental">
+          <End Role="Apartment" Type="Self.Apartment" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartment">
+              <PropertyRef Name="ApartmentID" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="ApartmentID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -787,10 +1211,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Category_Apartment">
-          <End Role="Category" Type="Self.Category" Multiplicity="0..1">
+        <Association Name="fk_Apartment_Resident">
+          <End Role="Apartment" Type="Self.Apartment" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
+          <End Role="Resident" Type="Self.Resident" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartment">
+              <PropertyRef Name="ApartmentID" />
+            </Principal>
+            <Dependent Role="Resident">
+              <PropertyRef Name="ApartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Applicant_OfferItems">
+          <End Role="Apartment" Type="Self.Apartment" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OfferItems" Type="Self.OfferItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartment">
+              <PropertyRef Name="ApartmentID" />
+            </Principal>
+            <Dependent Role="OfferItems">
+              <PropertyRef Name="ApartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Building_Apartment">
+          <End Role="Building" Type="Self.Building" Multiplicity="0..1" />
+          <End Role="Apartment" Type="Self.Apartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Building">
+              <PropertyRef Name="Building_Num" />
+            </Principal>
+            <Dependent Role="Apartment">
+              <PropertyRef Name="Building_Num" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Category_Apartment">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="Apartment" Type="Self.Apartment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Category">
@@ -798,6 +1260,20 @@
             </Principal>
             <Dependent Role="Apartment">
               <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Occupancy_Apartment">
+          <End Role="Occupancy" Type="Self.Occupancy" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Apartment" Type="Self.Apartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Occupancy">
+              <PropertyRef Name="OccupancyID" />
+            </Principal>
+            <Dependent Role="Apartment">
+              <PropertyRef Name="OccupancyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -813,6 +1289,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_Applicant_Offer">
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Offer" Type="Self.Offer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ApplicantID" />
+            </Principal>
+            <Dependent Role="Offer">
+              <PropertyRef Name="ApplicantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Applicant_Preference">
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Preference" Type="Self.Preference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ApplicantID" />
+            </Principal>
+            <Dependent Role="Preference">
+              <PropertyRef Name="ApplicantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_College_Applicant">
           <End Role="College" Type="Self.College" Multiplicity="0..1" />
           <End Role="Applicant" Type="Self.Applicant" Multiplicity="*" />
@@ -825,7 +1329,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Dept_Applicant">
+        <Association Name="fk_Department_Applicant">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="Applicant" Type="Self.Applicant" Multiplicity="*" />
           <ReferentialConstraint>
@@ -851,55 +1355,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Preference_Applicant">
-          <End Role="Preference" Type="Self.Preference" Multiplicity="0..1" />
-          <End Role="Applicant" Type="Self.Applicant" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Preference">
-              <PropertyRef Name="PreferenceID" />
-            </Principal>
-            <Dependent Role="Applicant">
-              <PropertyRef Name="PreferenceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Building_Village">
-          <End Role="Building" Type="Self.Building" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Village" Type="Self.Village" Multiplicity="*" />
+        <Association Name="fk_Building_Request">
+          <End Role="Building" Type="Self.Building" Multiplicity="0..1" />
+          <End Role="Maintenance_Request" Type="Self.Maintenance_Request" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Building">
               <PropertyRef Name="Building_Num" />
             </Principal>
-            <Dependent Role="Village">
+            <Dependent Role="Maintenance_Request">
               <PropertyRef Name="Building_Num" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Category_Preference">
-          <End Role="Category" Type="Self.Category" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Preference" Type="Self.Preference" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="Preference">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Category_Village">
-          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
-          <End Role="Village" Type="Self.Village" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="Village">
-              <PropertyRef Name="CategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -915,7 +1379,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Depart_Employee">
+        <Association Name="fk_Dept_Employee">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
           <ReferentialConstraint>
@@ -927,10 +1391,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_Dept_Major">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Major" Type="Self.Major" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Dept_ID" />
+            </Principal>
+            <Dependent Role="Major">
+              <PropertyRef Name="Dept_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Dept_Resident">
-          <End Role="Department" Type="Self.Department" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="Resident" Type="Self.Resident" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
@@ -941,15 +1415,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_Employee_Payment">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Employee_Rental">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Employee_Request">
           <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
           <End Role="Maintenance_Request" Type="Self.Maintenance_Request" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
-              <PropertyRef Name="UserID" />
+              <PropertyRef Name="EmployeeID" />
             </Principal>
             <Dependent Role="Maintenance_Request">
-              <PropertyRef Name="UserID" />
+              <PropertyRef Name="EmployeeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1003,19 +1503,81 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Village_Preference">
+        <Association Name="fk_NFQ_Major">
+          <End Role="NFQ" Type="Self.NFQ" Multiplicity="0..1" />
+          <End Role="Major" Type="Self.Major" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NFQ">
+              <PropertyRef Name="NFQID" />
+            </Principal>
+            <Dependent Role="Major">
+              <PropertyRef Name="NFQID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Offer_OfferItems">
+          <End Role="Offer" Type="Self.Offer" Multiplicity="0..1" />
+          <End Role="OfferItems" Type="Self.OfferItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Offer">
+              <PropertyRef Name="OfferID" />
+            </Principal>
+            <Dependent Role="OfferItems">
+              <PropertyRef Name="OfferID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Rental_Payment">
+          <End Role="Rental" Type="Self.Rental" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rental">
+              <PropertyRef Name="RentalID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="RentalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Preference_PreferenceItem">
+          <End Role="Preference" Type="Self.Preference" Multiplicity="0..1" />
+          <End Role="PreferenceItems" Type="Self.PreferenceItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Preference">
+              <PropertyRef Name="PreferenceID" />
+            </Principal>
+            <Dependent Role="PreferenceItems">
+              <PropertyRef Name="PreferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Resident_Rental">
+          <End Role="Resident" Type="Self.Resident" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resident">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Village_Resident">
           <End Role="Village" Type="Self.Village" Multiplicity="0..1" />
-          <End Role="Preference" Type="Self.Preference" Multiplicity="*" />
+          <End Role="Resident" Type="Self.Resident" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Village">
               <PropertyRef Name="VillageID" />
             </Principal>
-            <Dependent Role="Preference">
+            <Dependent Role="Resident">
               <PropertyRef Name="VillageID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="StudentHousingEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="HousingEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Access_Level" EntityType="Self.Access_Level" />
           <EntitySet Name="Apartments" EntityType="Self.Apartment" />
           <EntitySet Name="Applicants" EntityType="Self.Applicant" />
@@ -1024,10 +1586,18 @@
           <EntitySet Name="Colleges" EntityType="Self.College" />
           <EntitySet Name="Departments" EntityType="Self.Department" />
           <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Fees" EntityType="Self.Fee" />
           <EntitySet Name="Grades" EntityType="Self.Grade" />
           <EntitySet Name="Maintenance_Request" EntityType="Self.Maintenance_Request" />
           <EntitySet Name="Majors" EntityType="Self.Major" />
+          <EntitySet Name="NFQs" EntityType="Self.NFQ" />
+          <EntitySet Name="Occupancies" EntityType="Self.Occupancy" />
+          <EntitySet Name="Offers" EntityType="Self.Offer" />
+          <EntitySet Name="OfferItems" EntityType="Self.OfferItem" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
           <EntitySet Name="Preferences" EntityType="Self.Preference" />
+          <EntitySet Name="PreferenceItems" EntityType="Self.PreferenceItem" />
+          <EntitySet Name="Rentals" EntityType="Self.Rental" />
           <EntitySet Name="Residents" EntityType="Self.Resident" />
           <EntitySet Name="Salaries" EntityType="Self.Salary" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
@@ -1037,23 +1607,55 @@
             <End Role="Access_Level" EntitySet="Access_Level" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
+          <AssociationSet Name="fk_Apartment_PreferenceItem" Association="Self.fk_Apartment_PreferenceItem">
+            <End Role="Apartment" EntitySet="Apartments" />
+            <End Role="PreferenceItems" EntitySet="PreferenceItems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Apartment_Rental" Association="Self.fk_Apartment_Rental">
+            <End Role="Apartment" EntitySet="Apartments" />
+            <End Role="Rental" EntitySet="Rentals" />
+          </AssociationSet>
           <AssociationSet Name="fk_Apartment_Request" Association="Self.fk_Apartment_Request">
             <End Role="Apartment" EntitySet="Apartments" />
             <End Role="Maintenance_Request" EntitySet="Maintenance_Request" />
           </AssociationSet>
+          <AssociationSet Name="fk_Apartment_Resident" Association="Self.fk_Apartment_Resident">
+            <End Role="Apartment" EntitySet="Apartments" />
+            <End Role="Resident" EntitySet="Residents" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Applicant_OfferItems" Association="Self.fk_Applicant_OfferItems">
+            <End Role="Apartment" EntitySet="Apartments" />
+            <End Role="OfferItems" EntitySet="OfferItems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Building_Apartment" Association="Self.fk_Building_Apartment">
+            <End Role="Building" EntitySet="Buildings" />
+            <End Role="Apartment" EntitySet="Apartments" />
+          </AssociationSet>
           <AssociationSet Name="fk_Category_Apartment" Association="Self.fk_Category_Apartment">
             <End Role="Category" EntitySet="Categories" />
+            <End Role="Apartment" EntitySet="Apartments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Occupancy_Apartment" Association="Self.fk_Occupancy_Apartment">
+            <End Role="Occupancy" EntitySet="Occupancies" />
             <End Role="Apartment" EntitySet="Apartments" />
           </AssociationSet>
           <AssociationSet Name="fk_Village_Apartment" Association="Self.fk_Village_Apartment">
             <End Role="Village" EntitySet="Villages" />
             <End Role="Apartment" EntitySet="Apartments" />
           </AssociationSet>
+          <AssociationSet Name="fk_Applicant_Offer" Association="Self.fk_Applicant_Offer">
+            <End Role="Applicant" EntitySet="Applicants" />
+            <End Role="Offer" EntitySet="Offers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Applicant_Preference" Association="Self.fk_Applicant_Preference">
+            <End Role="Applicant" EntitySet="Applicants" />
+            <End Role="Preference" EntitySet="Preferences" />
+          </AssociationSet>
           <AssociationSet Name="fk_College_Applicant" Association="Self.fk_College_Applicant">
             <End Role="College" EntitySet="Colleges" />
             <End Role="Applicant" EntitySet="Applicants" />
           </AssociationSet>
-          <AssociationSet Name="fk_Dept_Applicant" Association="Self.fk_Dept_Applicant">
+          <AssociationSet Name="fk_Department_Applicant" Association="Self.fk_Department_Applicant">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Applicant" EntitySet="Applicants" />
           </AssociationSet>
@@ -1061,33 +1663,33 @@
             <End Role="Major" EntitySet="Majors" />
             <End Role="Applicant" EntitySet="Applicants" />
           </AssociationSet>
-          <AssociationSet Name="fk_Preference_Applicant" Association="Self.fk_Preference_Applicant">
-            <End Role="Preference" EntitySet="Preferences" />
-            <End Role="Applicant" EntitySet="Applicants" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Building_Village" Association="Self.fk_Building_Village">
+          <AssociationSet Name="fk_Building_Request" Association="Self.fk_Building_Request">
             <End Role="Building" EntitySet="Buildings" />
-            <End Role="Village" EntitySet="Villages" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Category_Preference" Association="Self.fk_Category_Preference">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="Preference" EntitySet="Preferences" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Category_Village" Association="Self.fk_Category_Village">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="Village" EntitySet="Villages" />
+            <End Role="Maintenance_Request" EntitySet="Maintenance_Request" />
           </AssociationSet>
           <AssociationSet Name="fk_College_Resident" Association="Self.fk_College_Resident">
             <End Role="College" EntitySet="Colleges" />
             <End Role="Resident" EntitySet="Residents" />
           </AssociationSet>
-          <AssociationSet Name="fk_Depart_Employee" Association="Self.fk_Depart_Employee">
+          <AssociationSet Name="fk_Dept_Employee" Association="Self.fk_Dept_Employee">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Dept_Major" Association="Self.fk_Dept_Major">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Major" EntitySet="Majors" />
           </AssociationSet>
           <AssociationSet Name="fk_Dept_Resident" Association="Self.fk_Dept_Resident">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Resident" EntitySet="Residents" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Payment" Association="Self.fk_Employee_Payment">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Rental" Association="Self.fk_Employee_Rental">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Rental" EntitySet="Rentals" />
           </AssociationSet>
           <AssociationSet Name="fk_Employee_Request" Association="Self.fk_Employee_Request">
             <End Role="Employee" EntitySet="Employees" />
@@ -1109,9 +1711,29 @@
             <End Role="Village" EntitySet="Villages" />
             <End Role="Maintenance_Request" EntitySet="Maintenance_Request" />
           </AssociationSet>
-          <AssociationSet Name="fk_Village_Preference" Association="Self.fk_Village_Preference">
-            <End Role="Village" EntitySet="Villages" />
+          <AssociationSet Name="fk_NFQ_Major" Association="Self.fk_NFQ_Major">
+            <End Role="NFQ" EntitySet="NFQs" />
+            <End Role="Major" EntitySet="Majors" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Offer_OfferItems" Association="Self.fk_Offer_OfferItems">
+            <End Role="Offer" EntitySet="Offers" />
+            <End Role="OfferItems" EntitySet="OfferItems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Rental_Payment" Association="Self.fk_Rental_Payment">
+            <End Role="Rental" EntitySet="Rentals" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Preference_PreferenceItem" Association="Self.fk_Preference_PreferenceItem">
             <End Role="Preference" EntitySet="Preferences" />
+            <End Role="PreferenceItems" EntitySet="PreferenceItems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Resident_Rental" Association="Self.fk_Resident_Rental">
+            <End Role="Resident" EntitySet="Residents" />
+            <End Role="Rental" EntitySet="Rentals" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Village_Resident" Association="Self.fk_Village_Resident">
+            <End Role="Village" EntitySet="Villages" />
+            <End Role="Resident" EntitySet="Residents" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -1119,9 +1741,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="StudentHousingModelStoreContainer" CdmEntityContainer="StudentHousingEntities1">
+        <EntityContainerMapping StorageEntityContainer="HousingModelStoreContainer" CdmEntityContainer="HousingEntities">
           <EntitySetMapping Name="Access_Level">
-            <EntityTypeMapping TypeName="StudentHousingModel.Access_Level">
+            <EntityTypeMapping TypeName="HousingModel.Access_Level">
               <MappingFragment StoreEntitySet="Access_Level">
                 <ScalarProperty Name="Access_Code" ColumnName="Access_Code" />
                 <ScalarProperty Name="Access_Type" ColumnName="Access_Type" />
@@ -1130,21 +1752,23 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Apartments">
-            <EntityTypeMapping TypeName="StudentHousingModel.Apartment">
+            <EntityTypeMapping TypeName="HousingModel.Apartment">
               <MappingFragment StoreEntitySet="Apartment">
                 <ScalarProperty Name="ApartmentID" ColumnName="ApartmentID" />
+                <ScalarProperty Name="Apartment_Num" ColumnName="Apartment_Num" />
                 <ScalarProperty Name="VillageID" ColumnName="VillageID" />
                 <ScalarProperty Name="Apartment_Desc" ColumnName="Apartment_Desc" />
-                <ScalarProperty Name="Build_Num" ColumnName="Build_Num" />
+                <ScalarProperty Name="Building_Num" ColumnName="Building_Num" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="Num_Of_Rooms" ColumnName="Num_Of_Rooms" />
+                <ScalarProperty Name="OccupancyID" ColumnName="OccupancyID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Applicants">
-            <EntityTypeMapping TypeName="StudentHousingModel.Applicant">
+            <EntityTypeMapping TypeName="HousingModel.Applicant">
               <MappingFragment StoreEntitySet="Applicant">
-                <ScalarProperty Name="ResidentID" ColumnName="ResidentID" />
+                <ScalarProperty Name="ApplicantID" ColumnName="ApplicantID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="College_ID" ColumnName="College_ID" />
@@ -1152,15 +1776,13 @@
                 <ScalarProperty Name="Dept_ID" ColumnName="Dept_ID" />
                 <ScalarProperty Name="Tel_Num" ColumnName="Tel_Num" />
                 <ScalarProperty Name="Martial_Status" ColumnName="Martial_Status" />
-                <ScalarProperty Name="PreferenceID" ColumnName="PreferenceID" />
                 <ScalarProperty Name="MajorID" ColumnName="MajorID" />
-                <ScalarProperty Name="Application_count" ColumnName="Application_count" />
                 <ScalarProperty Name="Fee" ColumnName="Fee" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Buildings">
-            <EntityTypeMapping TypeName="StudentHousingModel.Building">
+            <EntityTypeMapping TypeName="HousingModel.Building">
               <MappingFragment StoreEntitySet="Building">
                 <ScalarProperty Name="Building_Num" ColumnName="Building_Num" />
                 <ScalarProperty Name="Building_Desc" ColumnName="Building_Desc" />
@@ -1168,18 +1790,20 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Categories">
-            <EntityTypeMapping TypeName="StudentHousingModel.Category">
+            <EntityTypeMapping TypeName="HousingModel.Category">
               <MappingFragment StoreEntitySet="Category">
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="Dishwasher" ColumnName="Dishwasher" />
                 <ScalarProperty Name="Air_Con" ColumnName="Air_Con" />
                 <ScalarProperty Name="Furnished" ColumnName="Furnished" />
                 <ScalarProperty Name="Room_Type" ColumnName="Room_Type" />
+                <ScalarProperty Name="Deposit" ColumnName="Deposit" />
+                <ScalarProperty Name="Rent" ColumnName="Rent" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Colleges">
-            <EntityTypeMapping TypeName="StudentHousingModel.College">
+            <EntityTypeMapping TypeName="HousingModel.College">
               <MappingFragment StoreEntitySet="College">
                 <ScalarProperty Name="College_ID" ColumnName="College_ID" />
                 <ScalarProperty Name="College_Name" ColumnName="College_Name" />
@@ -1190,7 +1814,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Departments">
-            <EntityTypeMapping TypeName="StudentHousingModel.Department">
+            <EntityTypeMapping TypeName="HousingModel.Department">
               <MappingFragment StoreEntitySet="Department">
                 <ScalarProperty Name="Dept_ID" ColumnName="Dept_ID" />
                 <ScalarProperty Name="Dept_Name" ColumnName="Dept_Name" />
@@ -1199,23 +1823,32 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="StudentHousingModel.Employee">
+            <EntityTypeMapping TypeName="HousingModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="FName" ColumnName="FName" />
-                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Tel_Num" ColumnName="Tel_Num" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Access_Code" ColumnName="Access_Code" />
                 <ScalarProperty Name="Dept_ID" ColumnName="Dept_ID" />
-                <ScalarProperty Name="Employment_Date" ColumnName="Employment_Date" />
                 <ScalarProperty Name="GradeID" ColumnName="GradeID" />
                 <ScalarProperty Name="SalaryID" ColumnName="SalaryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Fees">
+            <EntityTypeMapping TypeName="HousingModel.Fee">
+              <MappingFragment StoreEntitySet="Fees">
+                <ScalarProperty Name="FeeID" ColumnName="FeeID" />
+                <ScalarProperty Name="Fee_Name" ColumnName="Fee_Name" />
+                <ScalarProperty Name="Fee_Desc" ColumnName="Fee_Desc" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Grades">
-            <EntityTypeMapping TypeName="StudentHousingModel.Grade">
+            <EntityTypeMapping TypeName="HousingModel.Grade">
               <MappingFragment StoreEntitySet="Grade">
                 <ScalarProperty Name="GradeID" ColumnName="GradeID" />
                 <ScalarProperty Name="Grade_Desc" ColumnName="Grade_Desc" />
@@ -1223,41 +1856,113 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Maintenance_Request">
-            <EntityTypeMapping TypeName="StudentHousingModel.Maintenance_Request">
+            <EntityTypeMapping TypeName="HousingModel.Maintenance_Request">
               <MappingFragment StoreEntitySet="Maintenance_Request">
                 <ScalarProperty Name="RequestID" ColumnName="RequestID" />
                 <ScalarProperty Name="Request_Desc" ColumnName="Request_Desc" />
-                <ScalarProperty Name="Build_Num" ColumnName="Build_Num" />
-                <ScalarProperty Name="VillageID" ColumnName="VillageID" />
-                <ScalarProperty Name="Submission_Date" ColumnName="Submission_Date" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Remediation_Date" ColumnName="Remediation_Date" />
                 <ScalarProperty Name="ResidentID" ColumnName="ResidentID" />
+                <ScalarProperty Name="VillageID" ColumnName="VillageID" />
+                <ScalarProperty Name="Building_Num" ColumnName="Building_Num" />
                 <ScalarProperty Name="ApartmentID" ColumnName="ApartmentID" />
+                <ScalarProperty Name="Submit_Date" ColumnName="Submit_Date" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Due_Date" ColumnName="Due_Date" />
+                <ScalarProperty Name="Remediation" ColumnName="Remediation" />
+                <ScalarProperty Name="Fix_Date" ColumnName="Fix_Date" />
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Majors">
-            <EntityTypeMapping TypeName="StudentHousingModel.Major">
+            <EntityTypeMapping TypeName="HousingModel.Major">
               <MappingFragment StoreEntitySet="Major">
                 <ScalarProperty Name="MajorID" ColumnName="MajorID" />
+                <ScalarProperty Name="Dept_ID" ColumnName="Dept_ID" />
                 <ScalarProperty Name="Major_Desc" ColumnName="Major_Desc" />
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
-                <ScalarProperty Name="Nat_Framework" ColumnName="Nat_Framework" />
+                <ScalarProperty Name="Qualification" ColumnName="Qualification" />
+                <ScalarProperty Name="NFQID" ColumnName="NFQID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NFQs">
+            <EntityTypeMapping TypeName="HousingModel.NFQ">
+              <MappingFragment StoreEntitySet="NFQ">
+                <ScalarProperty Name="NFQID" ColumnName="NFQID" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Qual_Desc" ColumnName="Qual_Desc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Occupancies">
+            <EntityTypeMapping TypeName="HousingModel.Occupancy">
+              <MappingFragment StoreEntitySet="Occupancy">
+                <ScalarProperty Name="OccupancyID" ColumnName="OccupancyID" />
+                <ScalarProperty Name="Occupancy_Desc" ColumnName="Occupancy_Desc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Offers">
+            <EntityTypeMapping TypeName="HousingModel.Offer">
+              <MappingFragment StoreEntitySet="Offer">
+                <ScalarProperty Name="OfferID" ColumnName="OfferID" />
+                <ScalarProperty Name="ApplicantID" ColumnName="ApplicantID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OfferItems">
+            <EntityTypeMapping TypeName="HousingModel.OfferItem">
+              <MappingFragment StoreEntitySet="OfferItems">
+                <ScalarProperty Name="OrderItemID" ColumnName="OrderItemID" />
+                <ScalarProperty Name="OfferID" ColumnName="OfferID" />
+                <ScalarProperty Name="ApartmentID" ColumnName="ApartmentID" />
+                <ScalarProperty Name="Accept" ColumnName="Accept" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="HousingModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="RentalID" ColumnName="RentalID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Payment_Date" ColumnName="Payment_Date" />
+                <ScalarProperty Name="Last_Update" ColumnName="Last_Update" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Preferences">
-            <EntityTypeMapping TypeName="StudentHousingModel.Preference">
+            <EntityTypeMapping TypeName="HousingModel.Preference">
               <MappingFragment StoreEntitySet="Preference">
                 <ScalarProperty Name="PreferenceID" ColumnName="PreferenceID" />
-                <ScalarProperty Name="VillageID" ColumnName="VillageID" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="ApplicantID" ColumnName="ApplicantID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PreferenceItems">
+            <EntityTypeMapping TypeName="HousingModel.PreferenceItem">
+              <MappingFragment StoreEntitySet="PreferenceItems">
+                <ScalarProperty Name="PrefItemID" ColumnName="PrefItemID" />
+                <ScalarProperty Name="PreferenceID" ColumnName="PreferenceID" />
+                <ScalarProperty Name="ApartmentID" ColumnName="ApartmentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rentals">
+            <EntityTypeMapping TypeName="HousingModel.Rental">
+              <MappingFragment StoreEntitySet="Rental">
+                <ScalarProperty Name="RentalID" ColumnName="RentalID" />
+                <ScalarProperty Name="Rental_Date" ColumnName="Rental_Date" />
+                <ScalarProperty Name="ApartmentID" ColumnName="ApartmentID" />
+                <ScalarProperty Name="ResidentID" ColumnName="ResidentID" />
+                <ScalarProperty Name="Rental_Term" ColumnName="Rental_Term" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Last_Update" ColumnName="Last_Update" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Residents">
-            <EntityTypeMapping TypeName="StudentHousingModel.Resident">
+            <EntityTypeMapping TypeName="HousingModel.Resident">
               <MappingFragment StoreEntitySet="Resident">
                 <ScalarProperty Name="ResidentID" ColumnName="ResidentID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1267,21 +1972,22 @@
                 <ScalarProperty Name="Dept_ID" ColumnName="Dept_ID" />
                 <ScalarProperty Name="Tel_Num" ColumnName="Tel_Num" />
                 <ScalarProperty Name="Martial_Status" ColumnName="Martial_Status" />
+                <ScalarProperty Name="ApartmentID" ColumnName="ApartmentID" />
+                <ScalarProperty Name="VillageID" ColumnName="VillageID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Salaries">
-            <EntityTypeMapping TypeName="StudentHousingModel.Salary">
+            <EntityTypeMapping TypeName="HousingModel.Salary">
               <MappingFragment StoreEntitySet="Salary">
                 <ScalarProperty Name="SalaryID" ColumnName="SalaryID" />
                 <ScalarProperty Name="Salary_Desc" ColumnName="Salary_Desc" />
-                <ScalarProperty Name="Salary_Scale" ColumnName="Salary_Scale" />
                 <ScalarProperty Name="Salary_Amount" ColumnName="Salary_Amount" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="StudentHousingModel.sysdiagram">
+            <EntityTypeMapping TypeName="HousingModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1292,12 +1998,12 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="StudentHousingModel.User">
+            <EntityTypeMapping TypeName="HousingModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Fname" ColumnName="Fname" />
-                <ScalarProperty Name="Lname" ColumnName="Lname" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
                 <ScalarProperty Name="AccessType" ColumnName="AccessType" />
@@ -1305,13 +2011,11 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Villages">
-            <EntityTypeMapping TypeName="StudentHousingModel.Village">
+            <EntityTypeMapping TypeName="HousingModel.Village">
               <MappingFragment StoreEntitySet="Village">
                 <ScalarProperty Name="VillageID" ColumnName="VillageID" />
                 <ScalarProperty Name="Village_Name" ColumnName="Village_Name" />
                 <ScalarProperty Name="Village_Desc" ColumnName="Village_Desc" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="Building_Num" ColumnName="Building_Num" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
               </MappingFragment>
             </EntityTypeMapping>

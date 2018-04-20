@@ -17,19 +17,35 @@ namespace MyWebSite
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Apartment()
         {
+            this.PreferenceItems = new HashSet<PreferenceItem>();
+            this.Rentals = new HashSet<Rental>();
             this.Maintenance_Request = new HashSet<Maintenance_Request>();
+            this.Residents = new HashSet<Resident>();
+            this.OfferItems = new HashSet<OfferItem>();
         }
     
         public int ApartmentID { get; set; }
+        public Nullable<int> Apartment_Num { get; set; }
         public Nullable<int> VillageID { get; set; }
         public string Apartment_Desc { get; set; }
-        public Nullable<int> Build_Num { get; set; }
+        public Nullable<int> Building_Num { get; set; }
         public Nullable<int> CategoryID { get; set; }
         public Nullable<int> Num_Of_Rooms { get; set; }
+        public Nullable<int> OccupancyID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PreferenceItem> PreferenceItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rental> Rentals { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Maintenance_Request> Maintenance_Request { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Resident> Residents { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OfferItem> OfferItems { get; set; }
+        public virtual Building Building { get; set; }
         public virtual Category Category { get; set; }
+        public virtual Occupancy Occupancy { get; set; }
         public virtual Village Village { get; set; }
     }
 }

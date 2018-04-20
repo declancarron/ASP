@@ -19,6 +19,7 @@ namespace MyWebSite
         {
             this.Applicants = new HashSet<Applicant>();
             this.Employees = new HashSet<Employee>();
+            this.Majors = new HashSet<Major>();
             this.Residents = new HashSet<Resident>();
         }
     
@@ -30,6 +31,8 @@ namespace MyWebSite
         public virtual ICollection<Applicant> Applicants { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Major> Majors { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Resident> Residents { get; set; }
     }

@@ -12,23 +12,19 @@ namespace MyWebSite
     using System;
     using System.Collections.Generic;
     
-    public partial class Category
+    public partial class NFQ
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Category()
+        public NFQ()
         {
-            this.Apartments = new HashSet<Apartment>();
+            this.Majors = new HashSet<Major>();
         }
     
-        public int CategoryID { get; set; }
-        public string Dishwasher { get; set; }
-        public string Air_Con { get; set; }
-        public string Furnished { get; set; }
-        public string Room_Type { get; set; }
-        public Nullable<decimal> Deposit { get; set; }
-        public Nullable<decimal> Rent { get; set; }
+        public int NFQID { get; set; }
+        public Nullable<int> Level { get; set; }
+        public string Qual_Desc { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Apartment> Apartments { get; set; }
+        public virtual ICollection<Major> Majors { get; set; }
     }
 }

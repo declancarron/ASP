@@ -11,10 +11,11 @@ namespace MyWebSite.Pages
     public partial class Login : System.Web.UI.Page
     {
         //entity framework name for the database
-        StudentHousingEntities1 db = new StudentHousingEntities1();
+        HousingEntities db = new HousingEntities();
 
         //table named Users that is in the database
-        Users user = new Users();
+         
+        User user = new User();
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -28,7 +29,7 @@ namespace MyWebSite.Pages
             
 
             //loop through the Users table
-            foreach (var userRecord in db.Users.Where(t => t.Username == userName && t.Password == password)
+            foreach (var userRecord in db.Users.Where(t => t.UserName == userName && t.Password == password))
             {
                 user = userRecord;
 
@@ -39,7 +40,7 @@ namespace MyWebSite.Pages
                 ((MasterPage)this.Master).currentuser = this.user;
                 //return where you are at back to the master page
 
-                Response.RedirectToRoute('');
+                //Response.RedirectToRoute('');
             }
         }
     }

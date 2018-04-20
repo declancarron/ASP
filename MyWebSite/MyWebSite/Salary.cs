@@ -22,7 +22,6 @@ namespace MyWebSite
     
         public int SalaryID { get; set; }
         public string Salary_Desc { get; set; }
-        public Nullable<int> Salary_Scale { get; set; }
         public Nullable<decimal> Salary_Amount { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

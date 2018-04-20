@@ -12,14 +12,16 @@ namespace MyWebSite
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class Payment
     {
-        public int UserID { get; set; }
-        public string UserName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Password { get; set; }
-        public Nullable<int> AccessLevel { get; set; }
-        public string AccessType { get; set; }
+        public int PaymentID { get; set; }
+        public Nullable<int> EmployeeID { get; set; }
+        public Nullable<int> RentalID { get; set; }
+        public Nullable<decimal> Amount { get; set; }
+        public Nullable<System.DateTime> Payment_Date { get; set; }
+        public byte[] Last_Update { get; set; }
+    
+        public virtual Employee Employee { get; set; }
+        public virtual Rental Rental { get; set; }
     }
 }

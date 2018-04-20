@@ -12,26 +12,18 @@ namespace MyWebSite
     using System;
     using System.Collections.Generic;
     
-    public partial class Village
+    public partial class Occupancy
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Village()
+        public Occupancy()
         {
             this.Apartments = new HashSet<Apartment>();
-            this.Maintenance_Request = new HashSet<Maintenance_Request>();
-            this.Residents = new HashSet<Resident>();
         }
     
-        public int VillageID { get; set; }
-        public string Village_Name { get; set; }
-        public string Village_Desc { get; set; }
-        public string Address { get; set; }
+        public int OccupancyID { get; set; }
+        public string Occupancy_Desc { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Apartment> Apartments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Maintenance_Request> Maintenance_Request { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Resident> Residents { get; set; }
     }
 }
