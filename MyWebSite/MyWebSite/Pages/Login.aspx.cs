@@ -56,7 +56,7 @@ namespace MyWebSite.Pages
                 user = userRecord;
 
                 authenticated = true;
-                CreateALog(user.UserID, "Login", "User" + user.UserName.ToString() + "authenticated successfully");
+                CreateALog(Convert.ToUInt16(user.UserID), "Login", "User" + user.UserName.ToString() + "authenticated successfully");
                 break;
             }
             if (authenticated)
@@ -69,7 +69,7 @@ namespace MyWebSite.Pages
             else
             {
                 lblSuccess.Text = "Problem loggin in. Please re-enter user details.";
-                CreateALog(user.UserID, "Login", "User" + user.UserName.ToString() + "authenticated failure");
+                CreateALog(Convert.ToUInt16(user.UserID), "Login", "User" + user.UserName.ToString() + "authenticated failure");
             }
             //lblMessage.Text ="User details enter are "+ username + " " +Password;
         }

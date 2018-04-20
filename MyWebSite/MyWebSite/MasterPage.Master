@@ -15,6 +15,7 @@
             <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/MyBanner.png" Width="100%" />
         </div>
         <div id="navigation">
+            <asp:Label ID="lblMasterUser" runat="server" Text="Label"></asp:Label>
             <asp:Menu ID="Menu1" runat="server" Orientation="Horizontal">
                 <Items>
                     <asp:MenuItem NavigateUrl="~/Pages/Home.aspx" Text="Home" ToolTip="Click this menu item to view Home page" Value="Home"></asp:MenuItem>

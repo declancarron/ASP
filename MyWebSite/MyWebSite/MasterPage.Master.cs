@@ -12,7 +12,7 @@ namespace MyWebSite
         public User currentuser = new User();
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            lblMasterUser.Text = currentuser.UserName;
         }
     }
 }
