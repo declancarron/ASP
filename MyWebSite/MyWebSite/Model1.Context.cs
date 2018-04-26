@@ -13,10 +13,10 @@ namespace MyWebSite
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class HousingEntities1 : DbContext
+    public partial class HousingEntities3 : DbContext
     {
-        public HousingEntities1()
-            : base("name=HousingEntities1")
+        public HousingEntities3()
+            : base("name=HousingEntities3")
         {
         }
     

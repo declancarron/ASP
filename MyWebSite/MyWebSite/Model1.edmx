@@ -1630,7 +1630,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="HousingEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="HousingEntities3" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Access_Level" EntityType="Self.Access_Level" />
           <EntitySet Name="Apartments" EntityType="Self.Apartment" />
           <EntitySet Name="Applicants" EntityType="Self.Applicant" />
@@ -1799,7 +1799,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HousingModelStoreContainer" CdmEntityContainer="HousingEntities1">
+        <EntityContainerMapping StorageEntityContainer="HousingModelStoreContainer" CdmEntityContainer="HousingEntities3">
           <EntitySetMapping Name="Access_Level">
             <EntityTypeMapping TypeName="HousingModel.Access_Level">
               <MappingFragment StoreEntitySet="Access_Level">

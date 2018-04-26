@@ -10,16 +10,30 @@ namespace MyWebSite.Pages
    
     public partial class Home : System.Web.UI.Page
     {
-        User user = new User();
+        //User user = new User();
         protected void Page_Load(object sender, EventArgs e)
         {
-            ShowUserDetails();
+            //ShowUserDetails();
+            User user = (User)Session["currentUser"];
+
+            //details for the login message
+            string firstName = user.FirstName;
+            string lastName = user.LastName;
+            string userName = user.UserName;
+            string welcomeMessage = "Welcome " + firstName + " " + lastName + ". Please select an option";
+
         }
 
-        private void ShowUserDetails()
+        protected void btnLogout_Click(object sender, EventArgs e)
         {
-            user = ((MasterPage)this.Master).currentuser;
-            lblDetails.Text = user.UserName.ToString();
+            Session.Clear();
+            Response.Redirect("~/Pages/Login.aspx");
         }
+
+        // private void ShowUserDetails()
+        // {
+        //   user = ((MasterPage)this.Master).currentuser;
+        // lblDetails.Text = user.UserName.ToString();
+        //}
     }
 }
