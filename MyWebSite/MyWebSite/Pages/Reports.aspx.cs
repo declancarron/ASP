@@ -38,7 +38,7 @@ namespace MyWebSite.Pages
             catch (Exception ex)
             {
 
-                //lblSuccess.Text = "Error in database" + ex.InnerException;
+                lblSuccess.Text = "Error in database" + ex.InnerException;
             }
             return (writeLogSuccess);
         }

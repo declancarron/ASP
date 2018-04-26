@@ -28,5 +28,13 @@
     <p>
         <a class="btn btn-default" href="http://ws12sql4/Reports/report/Resident%20Fees">Log Reports</a>
         <asp:Button ID="btnLogReport" runat="server" Text="Log Report" OnClick="btnLogReport_Click" Width="260px" />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </p>
+    <p>
+        &nbsp;</p>
+    <p>
+        &nbsp;</p>
+    <p>
+        <asp:Label ID="lblSuccess" runat="server" Text=""></asp:Label>
     </p>
 </asp:Content>
