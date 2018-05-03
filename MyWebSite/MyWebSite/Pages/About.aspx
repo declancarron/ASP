@@ -6,6 +6,10 @@
         <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/StudentHousing2.png" />
     </p>
     <p>
-        Letterkenny Student Accommodation Services
+        <h2>Letterkenny Student Accommodation Services</h2>
+    </p>
+    <br />
+    <p>
+        <h3>This site contains the reports generated from the data contained in the Letterkenny Student Services database</h3>
     </p>
 </asp:Content>

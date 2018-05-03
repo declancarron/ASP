@@ -13,6 +13,7 @@
     <form id="form1" runat="server" class="form-signin">
         <div>
             <div class="container">
+                <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/StudentHousing2.png" />
                 <asp:Table ID="Table1" Class="form-signin" runat="server"
                     CellSpacing="50" BorderStyle="None" HorizontalAlign="Center">
                     <asp:TableRow

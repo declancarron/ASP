@@ -16,10 +16,7 @@ namespace MyWebSite.Pages
         //table named Users that is in the database
          User user = new User();
         int writeLogSuccess = 0;
-        protected void Page_Load(object sender, EventArgs e)
-        {
-
-        }
+        protected void Page_Load(object sender, EventArgs e) => Session.Clear();
 
         private int CreateALog(int userID, string category, string description)
         {
