@@ -44,37 +44,37 @@ namespace MyWebSite.Pages
         }
         protected void btnApartmentApplicantReport_Click(object sender, EventArgs e)
         {
-            Response.Redirect("http://ws12sql4/Reports/report/Apartment%20Applications");
+            Response.Redirect("http://172.28.134.4/Reports/report/Apartment%20Applications");
             //CreateALog(Convert.ToUInt16(), "Report accessed ", "User " + user.UserName.ToString() + " Accessed Apartment Applications Report");
         }
 
         protected void btnApartmentVacancies_Click(object sender, EventArgs e)
         {
-            Response.Redirect("http://ws12sql4/Reports/report/Apartment%20Available");
+            Response.Redirect("http://172.28.134.4/Reports/report/Apartment%20Available");
             //CreateALog(Convert.ToUInt16(user.UserID), "Report accessed ", "User " + user.UserName.ToString() + " Accessed Apartment Vacancies Report");
         }
 
         protected void btnMaintenanceRequests_Click(object sender, EventArgs e)
         {
-            Response.Redirect("http://ws12sql4/Reports/report/Maintenance%20Requests");
+            Response.Redirect("http://172.28.134.4/Reports/report/Maintenance%20Requests");
             //CreateALog(Convert.ToUInt16(user.UserID), "Report accessed ", "User " + user.UserName.ToString() + " Accessed Maintenance Request Report");
         }
 
         protected void btnRentalPayments_Click(object sender, EventArgs e)
         {
-            Response.Redirect("http://ws12sql4/Reports/report/Rental%20Payments");
+            Response.Redirect("http://172.28.134.4/Reports/report/Rental%20Payments");
             //CreateALog(Convert.ToUInt16(user.UserID), "Report accessed ", "User " + user.UserName.ToString() + " Accessed Maintenance Request Report");
         }
 
         protected void btnResidentFees_Click(object sender, EventArgs e)
         {
-            Response.Redirect("http://ws12sql4/Reports/report/Resident%20Fees");
+            Response.Redirect("http://172.28.134.4/Reports/report/Resident%20Fees");
             //CreateALog(Convert.ToUInt16(user.UserID), "Report accessed ", "User " + user.UserName.ToString() + " Accessed Resident Fees Report");
         }
 
         protected void btnLogReport_Click(object sender, EventArgs e)
         {
-            Response.Redirect("http://ws12sql4/Reports/report/Resident%20Fees");
+            Response.Redirect("http://172.28.134.4/Reports/report/Resident%20Fees");
             //CreateALog(Convert.ToUInt16(user.UserID), "Report accessed ", "User " + user.UserName.ToString() + " Accessed Log Report");
         }
     }
