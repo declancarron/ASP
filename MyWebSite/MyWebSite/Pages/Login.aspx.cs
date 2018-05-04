@@ -58,24 +58,34 @@ namespace MyWebSite.Pages
                 //break;
             }
 
-            // write to log issue, when  log save is inside loop, writing log outside of loop
-            writeLogSuccess = CreateALog(Convert.ToUInt16(user.UserID), "Login ", "User " + user.UserName.ToString() + " authenticated successfully");
-
-            if (authenticated && writeLogSuccess == 1)
+            try
             {
+                // write to log issue, when  log save is inside loop, writing log outside of loop
+                writeLogSuccess = CreateALog(Convert.ToUInt16(user.UserID), "Login ", "User " + user.UserName.ToString() + " authenticated successfully");
 
-                //((MasterPage)this.Master).currentuser = this.user;
-                //return where you are at back to the master page
-                HttpContext.Current.Session["currentUser"] = user;
+                if (authenticated && writeLogSuccess == 1)
+                {
 
-                //redirect authenticated user to home page
-                Response.Redirect("~/pages/Home.aspx");
+                    //((MasterPage)this.Master).currentuser = this.user;
+                    //return where you are at back to the master page
+                    HttpContext.Current.Session["currentUser"] = user;
+
+                    //redirect authenticated user to home page
+                    Response.Redirect("~/pages/Home.aspx");
+                }
+                else
+                {
+                    lblSuccess.Text = "Problem loggin in. Please re-enter user details.";
+                    CreateALog(Convert.ToUInt16(user.UserID), "Login ", "User " + user.UserName.ToString() + " authenticated failure");
+                }
+
             }
-            else
+            catch (Exception ex)
             {
+
                 lblSuccess.Text = "Problem loggin in. Please re-enter user details.";
-                CreateALog(Convert.ToUInt16(user.UserID), "Login ", "User " + user.UserName.ToString() + " authenticated failure");
             }
+
             
         }
     }

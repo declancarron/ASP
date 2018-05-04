@@ -2,9 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <p>
         <h2>Letterkenny Student Accommodation Housing Reports</h2>
-    </p>
     <p>
         <!--<a class="btn btn-default" href="http://172.28.134.4/Reports/report/Apartment%20Applications">Current Applications for Apartments</a>-->
         Click to review the Current List of Applications for Student Accommodation
