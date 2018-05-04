@@ -21,6 +21,7 @@ namespace MyWebSite.Pages
         private int CreateALog(int userID, string category, string description)
         {
             int writeLogSuccess = 0;
+            //try catch to produce error message on write error to log table
             try
             {
                 Log logs = new Log();
@@ -43,6 +44,7 @@ namespace MyWebSite.Pages
         }
         protected void btnLogin_Click(object sender, EventArgs e)
         {
+            //set authenticated to false initially
             bool authenticated = false;
             var userName = tbxUsername.Text.Trim();
             var password = tbxPassword.Text.Trim();
@@ -58,6 +60,7 @@ namespace MyWebSite.Pages
                 //break;
             }
 
+            //try catch to produce error message for unsuccessfull login attempt
             try
             {
                 // write to log issue, when  log save is inside loop, writing log outside of loop
@@ -75,14 +78,16 @@ namespace MyWebSite.Pages
                 }
                 else
                 {
+                    //login message
                     lblSuccess.Text = "Problem loggin in. Please re-enter user details.";
-                    CreateALog(Convert.ToUInt16(user.UserID), "Login ", "User " + user.UserName.ToString() + " authenticated failure");
+                    //write authentication failure to log file
+                    CreateALog(Convert.ToUInt16(user.UserID), "Login ", "User " + user.UserName.ToString() + " authentication failure");
                 }
 
             }
             catch (Exception ex)
             {
-
+                //write authentication failure to log file
                 lblSuccess.Text = "Problem loggin in. Please re-enter user details.";
             }
 
